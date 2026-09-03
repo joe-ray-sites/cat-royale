@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cat Royale</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cat Royale">
+<meta name="theme-color" content="#1b2340">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="stage">
+  <div id="app">
+    <!-- HOME -->
+    <div id="home" class="screen">
+      <div class="topbar">
+        <div class="logo">🐱 Cat Royale</div>
+        <div class="wallet">
+          <span class="pill" id="w-food">🥫 0</span>
+          <span class="pill" id="w-nip">🌿 0</span>
+        </div>
+      </div>
+      <div id="home-body" class="scroll"></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="worlds">🗺️<span>Worlds</span></button>
+        <button class="tab" data-tab="cats">🐱<span>Cats</span></button>
+        <button class="tab" data-tab="capsule">🛒<span>Shop</span></button>
+        <button class="tab" data-tab="daily">🎯<span>Daily</span><i class="dot hidden"></i></button>
+        <button class="tab" data-tab="settings">⚙️<span>More</span></button>
+      </div>
+    </div>
+
+    <!-- BATTLE -->
+    <div id="battle" class="screen hidden">
+      <canvas id="arena" width="360" height="560"></canvas>
+      <div id="hud-top">
+        <div class="paws" id="paws-enemy">🐾 0</div>
+        <div id="timer">3:00</div>
+        <div class="paws" id="paws-me">🐾 0</div>
+        <button id="pause-btn" title="Pause">⏸</button>
+      </div>
+      <div id="pause" class="hidden">
+        <div class="box">
+          <h2>⏸ Paused</h2>
+          <div class="sub" id="pause-info"></div>
+          <div class="pause-actions">
+            <button class="btn green big" id="pause-resume">▶️ Resume</button>
+            <button class="btn" id="pause-restart">🔁 Restart stage</button>
+            <button class="btn gray" id="pause-quit">🏠 Quit to menu</button>
+          </div>
+        </div>
+      </div>
+      <div id="banner" class="hidden"></div>
+      <div id="hud-bottom">
+        <div id="kibble-row">
+          <button id="cannon-btn" title="Cat Cannon"><span id="cannon-fill"></span><span class="lbl">🔫 Cat Cannon</span></button>
+          <div id="kibble-bar"><div id="kibble-fill"></div><div id="kibble-ticks"></div><span id="kibble-num">5</span></div>
+        </div>
+        <div id="hand">
+          <div id="next-card"><div class="lbl">Next</div><canvas width="44" height="44"></canvas></div>
+          <div class="card" data-slot="0"><canvas width="64" height="64"></canvas><div class="cost">1</div><div class="cname">Kitty</div></div>
+          <div class="card" data-slot="1"><canvas width="64" height="64"></canvas><div class="cost">1</div><div class="cname">Kitty</div></div>
+          <div class="card" data-slot="2"><canvas width="64" height="64"></canvas><div class="cost">1</div><div class="cname">Kitty</div></div>
+          <div class="card" data-slot="3"><canvas width="64" height="64"></canvas><div class="cost">1</div><div class="cname">Kitty</div></div>
+        </div>
+      </div>
+      <div id="tutorial" class="hidden">
+        <div class="box">
+          <h2>How to play</h2>
+          <p>🐟 <b>Kibble</b> fills up over time. Every cat costs Kibble.</p>
+          <p>👆 <b>Tap a card</b>, then tap <b>your half</b> of the yard to send that cat charging up the lane.</p>
+          <p>🏠 Knock down the <b>Doghouses</b>. Smash the <b>Big Doghouse</b> to win instantly!</p>
+          <p>🔫 The <b>Cat Cannon</b> charges up. Tap it to blast every enemy in both lanes.</p>
+          <p>⏱️ Last minute = <b>Double Kibble!</b></p>
+          <button class="btn big" id="tut-ok">Let's go! 🐾</button>
+        </div>
+      </div>
+      <div id="result" class="hidden"></div>
+    </div>
+  </div>
+  <div id="modal" class="hidden"><div id="modal-box"></div></div>
+  <div id="toast" class="hidden"></div>
+</div>
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/save.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
