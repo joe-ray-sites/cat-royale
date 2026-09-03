@@ -6,6 +6,8 @@ Read [DESIGN.md](DESIGN.md) for the full design.
 
 ## Play it
 
+**Live:** https://joe-ray-sites.github.io/cat-royale/ (GitHub Pages, updates on every push to `main`).
+
 **Single file:** open `dist/index.html` in any browser, or host it anywhere (GitHub Pages, Netlify, a Dropbox link...). Everything is inlined: no build, no server, no dependencies.
 
 **On iPhone:** open the hosted link in Safari, tap **Share → Add to Home Screen**. It launches full-screen like an app and saves progress on the device.
