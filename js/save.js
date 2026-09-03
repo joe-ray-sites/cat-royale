@@ -62,7 +62,7 @@ const SAVE = (() => {
     const odds = DATA.CAPSULE_ODDS; const total = Object.values(odds).reduce((a, b) => a + b, 0);
     let r = Math.random() * total, rarity = 'special';
     for (const k in odds) { r -= odds[k]; if (r <= 0) { rarity = k; break; } }
-    let pool = DATA.CATS.filter(c => c.rarity === rarity);
+    let pool = DATA.CATS.filter(c => c.rarity === rarity && !c.exclusive);
     const unowned = pool.filter(c => !P.cats[c.id]);
     if (unowned.length && (Math.random() < 0.65 || unowned.length === pool.length)) pool = unowned;
     const def = pool[Math.floor(Math.random() * pool.length)];
@@ -147,12 +147,24 @@ const SAVE = (() => {
     { nip: 50, food: 2000, icon: '🛒', name: 'Mega Haul' },
   ];
   function buyFood(i) { const b = FOOD_BUNDLES[i]; if (!b || P.nip < b.nip) return null; P.nip -= b.nip; P.food += b.food; save(); return b; }
-  const PROMO_CODES = { lawsonisthebest: { nip: 50 } };
+  // Catnip codes work once per day. Cat codes are one-time gifts of an exclusive cat.
+  const PROMO_CODES = {
+    lawsonisthebest: { nip: 50 },
+    facetimecat: { cat: 'facetime' },
+    facetimepro: { cat: 'facetimepro' },
+    facetimemax: { cat: 'facetimemax' },
+    facetimeultra: { cat: 'facetimeultra' },
+  };
   function redeemPromo(raw) {
     const code = String(raw || '').trim().toLowerCase().replace(/\s+/g, '');
     const promo = PROMO_CODES[code];
     if (!promo) return { ok: false, reason: 'invalid' };
     if (!P.promo) P.promo = {};
+    if (promo.cat) {
+      if (P.cats[promo.cat]) return { ok: false, reason: 'owned', cat: promo.cat };
+      grant(promo.cat); P.promo[code] = 'claimed'; save();
+      return { ok: true, cat: promo.cat };
+    }
     if (P.promo[code] === today()) return { ok: false, reason: 'used' };
     P.promo[code] = today(); P.nip += promo.nip; save();
     return { ok: true, nip: promo.nip };

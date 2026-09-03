@@ -198,9 +198,26 @@ const ART = (() => {
         for (const d of [-1, 1]) { ctx.beginPath(); ctx.moveTo(d * rx * 0.5, ey + 6); ctx.lineTo(d * rx * 1.25, ey + 3); ctx.moveTo(d * rx * 0.5, ey + 9); ctx.lineTo(d * rx * 1.25, ey + 11); ctx.stroke(); }
       }
     }
+    // iPad with a game controller (Facetime Cat family)
+    if (look.tablet) {
+      const big = look.tablet === 'max';
+      const tw = rx * (big ? 1.7 : 1.35), th = ry * (big ? 1.15 : 0.95), tx = -tw / 2, ty = ry * 0.05;
+      const screen = { base: '#3fb8ff', pro: '#ff6b8a', max: '#ffd166', ultra: '#b48cff' }[look.tablet] || '#3fb8ff';
+      rrect(ctx, tx, ty, tw, th, 4, '#2a2d38', OUTLINE, 2);
+      rrect(ctx, tx + 3, ty + 3, tw - 6, th - 6, 2, screen);
+      // tiny caller on screen (it's a Facetime call!)
+      ellipse(ctx, 0, ty + th * 0.5, tw * 0.16, th * 0.2, '#fff', OUTLINE, 1);
+      ellipse(ctx, -tw * 0.06, ty + th * 0.45, 1.2, 1.2, OUTLINE); ellipse(ctx, tw * 0.06, ty + th * 0.45, 1.2, 1.2, OUTLINE);
+      ctx.strokeStyle = OUTLINE; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, ty + th * 0.52, 2.2, 0.2, Math.PI - 0.2); ctx.stroke();
+      ellipse(ctx, 0, ty + th - 2.5, 1.5, 1.5, '#777'); // home button
+      // paws holding the sides
+      ellipse(ctx, tx + 1, ty + th * 0.55, 4, 3.5, color, OUTLINE, 1.5); ellipse(ctx, tx + tw - 1, ty + th * 0.55, 4, 3.5, color, OUTLINE, 1.5);
+      emoji(ctx, '🎮', tx + tw * 0.95, ty + th * 0.9, s * (big ? 1.0 : 0.9));
+    }
     // props
     if (look.hat) emoji(ctx, look.hat, 0, -ry * 1.25, s * 1.2);
     if (look.item) emoji(ctx, look.item, rx * 1.05, ry * 0.05, s * 1.3);
+    if (look.item2) emoji(ctx, look.item2, -rx * 1.05, ry * 0.15, s * 1.2);
     if (look.emoji) emoji(ctx, look.emoji, 0, 0, s * 2.4);
     if (look.speedlines) { ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 2; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(-rx * 1.2, i * 6); ctx.lineTo(-rx * 1.9, i * 6); ctx.stroke(); } }
 

@@ -211,6 +211,42 @@ const DATA = (() => {
         { name: 'Supreme Floof', look: look({ body: 'round', scale: 2.0, fluffy: true, hat: '👑', eyes: 'closed' }) },
         { name: 'The Floofinity', look: look({ body: 'round', scale: 2.2, fluffy: true, hat: '👑', eyes: 'glow', color: '#fff8e0' }) },
       ] }),
+    // ---------------- EXCLUSIVE UBERS (gift codes only) ----------------
+    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', exclusive: true, cost: 5, hp: 480, dmg: 92, range: 125, speed: 55, rate: 1.3, area: 40, hitsAir: true, slow: 1.5,
+      desc: 'Always on a call, always gaming. Its splash attacks LAG enemies so they crawl. Gift-only: ask the Game Master!',
+      forms: [
+        { name: 'Facetime Cat', look: look({ tablet: 'base' }) },
+        { name: 'Facetime Cat HD', look: look({ tablet: 'base', hat: '🎧', eyes: 'wide' }) },
+        { name: 'Facetime Cat 4K', look: look({ tablet: 'base', hat: '🎧', eyes: 'glow', color: '#f0f4ff', scale: 1.1 }) },
+      ], formAdd: [null, { slow: 2 }, { slow: 2.5 }] }),
+    cat({ id: 'facetimepro', name: 'Facetime Cat Pro', rarity: 'uber', exclusive: true, cost: 6, hp: 540, dmg: 135, range: 26, speed: 120, rate: 0.6, lifesteal: 0.3,
+      desc: 'Pro gamer reflexes. Sprints in, mashes buttons at lightning speed, and heals off every combo. Gift-only!',
+      forms: [
+        { name: 'Facetime Cat Pro', look: look({ tablet: 'pro', hat: '🎧', eyes: 'angry' }) },
+        { name: 'Facetime Cat Pro HD', look: look({ tablet: 'pro', hat: '🎧', eyes: 'angry', color: '#f3f3f3', speedlines: true }) },
+        { name: 'Facetime Cat Pro 4K', look: look({ tablet: 'pro', hat: '🏆', eyes: 'glow', color: '#eeeeff', speedlines: true, scale: 1.1 }) },
+      ] }),
+    cat({ id: 'facetimemax', name: 'Facetime Cat Max', rarity: 'uber', exclusive: true, cost: 8, hp: 2000, dmg: 150, range: 34, speed: 38, rate: 1.9, area: 56, knockback: true,
+      desc: 'The biggest screen. The biggest cat. Smashes whole groups back with a giant iPad. Gift-only!',
+      forms: [
+        { name: 'Facetime Cat Max', look: look({ tablet: 'max', body: 'wide', scale: 1.55, eyes: 'closed' }) },
+        { name: 'Facetime Cat Max HD', look: look({ tablet: 'max', body: 'wide', scale: 1.7, eyes: 'angry', hat: '🎧' }) },
+        { name: 'Facetime Cat Max 4K', look: look({ tablet: 'max', body: 'wide', scale: 1.85, eyes: 'glow', hat: '👑', color: '#fff8e8' }) },
+      ] }),
+    cat({ id: 'facetimeultra', name: 'Facetime Cat Ultra', rarity: 'uber', exclusive: true, cost: 7, hp: 560, dmg: 210, range: 150, speed: 50, rate: 2.0, flying: true, hitsAir: true, area: 50, freeze: 1.5,
+      desc: 'Flies on a hover-iPad and screen-FREEZES everything it hits. The rarest cat in the game. Gift-only!',
+      forms: [
+        { name: 'Facetime Cat Ultra', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#e8f0ff' }) },
+        { name: 'Facetime Cat Ultra HD', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#dce8ff', hat: '🎧' }) },
+        { name: 'Facetime Cat Ultra 4K', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#d0e0ff', hat: '🌟', scale: 1.15 }) },
+      ], formAdd: [null, { freeze: 2 }, { freeze: 2.5 }] }),
+    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', cost: 7, hp: 640, dmg: 150, range: 135, speed: 55, rate: 1.4, hitsAir: true, area: 46, stun: 0.8, kibbleOnDeploy: 2, exclusive: true,
+      desc: 'Streams every battle on his iPad while gaming. Enemies he hits LAG for a moment, and his fans tip you 2 Kibble when he shows up. Only the Game Master can give you this cat!',
+      forms: [
+        { name: 'Facetime Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide' }) },
+        { name: 'Streamer Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide', hat: '🎧', color: '#f0f4ff' }) },
+        { name: 'Esports Legend', look: look({ item: '📱', item2: '🎮', eyes: 'glow', hat: '🏆', color: '#e8f0ff', scale: 1.15 }) },
+      ], formAdd: [null, { stun: 1.0, kibbleOnDeploy: 3 }, { stun: 1.2, kibbleOnDeploy: 4 }] }),
     // ---------------- SPELLS ----------------
     { id: 'fishbomb', name: 'Fish Bomb', rarity: 'spell', cost: 3, kind: 'spell', radius: 72, dmg: 230, knockback: true, hitsAir: true,
       desc: 'Drop an exploding can of tuna anywhere. Big splash damage plus knockback.',

@@ -31,6 +31,7 @@ const UI = (() => {
     ART.drawPortraitTo(cv, def, c ? c.form : 0);
     d.appendChild(el('div', 'c', def.cost));
     if (c) d.appendChild(el('div', 'lv', 'Lv' + c.level));
+    else if (def.exclusive) d.appendChild(el('div', 'lv', '🔒 Secret')); else if (def.exclusive) d.appendChild(el('div', 'lv', '🎁'));
     d.appendChild(el('div', 'n', c ? def.forms[c.form].name : def.name));
     if (opts.onclick) d.onclick = () => { SFX.click(); opts.onclick(id, d); };
     return d;
@@ -175,7 +176,7 @@ const UI = (() => {
       if (!inDeck) { const ub = el('button', 'btn', '🃏 Use in Deck'); ub.onclick = () => { state.swapCat = id; closeModal(); toast('Now tap a deck slot to replace'); renderHome(); }; act.appendChild(ub); }
       else act.appendChild(el('div', 'tag', '✔ In your deck'));
     } else {
-      act.appendChild(el('div', 'desc', def.rarity === 'basic' ? '🔓 Unlock by beating a World boss.' : '🎁 Get it from the Toy Capsule Machine, or as a stage reward!'));
+      act.appendChild(el('div', 'desc', def.exclusive ? '🎁 <b>Exclusive!</b> This cat is not in any capsule or stage. Only the Game Master can give you the gift code for it. Enter it in the Shop.' : def.rarity === 'basic' ? '🔓 Unlock by beating a World boss.' : '🎁 Get it from the Toy Capsule Machine, or as a stage reward!'));
     }
     const cl = el('button', 'btn gray', 'Close'); cl.onclick = () => { SFX.click(); closeModal(); }; act.appendChild(cl);
   }
@@ -224,7 +225,7 @@ const UI = (() => {
     info.innerHTML = `<div class="whead"><div class="wicon" style="background:#2a3358">🌿</div><div><div class="wname">Earn it in battle</div><div class="wdesc">First-time stage clears give 8 🌿, bosses give 30 🌿. Daily quests give a 10 🌿 bonus, and Toy Boxes sometimes have Catnip too.</div></div></div>`;
     body.appendChild(info);
     const vm = el('div', 'world');
-    vm.innerHTML = `<div class="whead"><div class="wicon" style="background:#1f78d1">💸</div><div><div class="wname">Ask the Game Master</div><div class="wdesc">Want a Catnip top-up? Send a tip on Venmo and ask for a promo code!</div></div></div>`;
+    vm.innerHTML = `<div class="whead"><div class="wicon" style="background:#1f78d1">💸</div><div><div class="wname">Ask the Game Master</div><div class="wdesc">Want a Catnip top-up or an <b>exclusive Facetime Cat</b>? Send a tip on Venmo and ask for a code!</div></div></div>`;
     const a = el('a', 'venmo', '💙 Venmo @joeray26'); a.href = 'https://venmo.com/u/joeray26'; a.target = '_blank'; a.rel = 'noopener';
     vm.appendChild(a);
     vm.appendChild(el('div', 'sub', '<br>Got a promo code? Enter it here (one use per day):'));
@@ -233,7 +234,15 @@ const UI = (() => {
     const go = el('button', 'btn', 'Redeem');
     const redeem = () => {
       const r = SAVE.redeemPromo(input.value);
-      if (r.ok) { SFX.fanfare(); updateWallet(); input.value = ''; toast(`🎉 +🌿 ${r.nip} Catnip!`, 2400); renderHome(); }
+      if (r.ok && r.cat) {
+        SFX.fanfare(); input.value = ''; const def = DATA.CAT_BY_ID[r.cat];
+        const box = modal(`<div class="center"><div class="sub">🎁 A GIFT FROM THE GAME MASTER! 🎁</div><div class="reveal"><canvas width="140" height="140" id="gift-cv" style="background:#1b2340;border-radius:20px"></canvas></div><div class="mtitle">${def.name}</div><div class="rtext-uber" style="font-weight:800">Exclusive Uber Rare</div><div class="desc">${def.desc}</div><div class="row"><button class="btn green" id="gift-deck">🃏 Use in Deck</button><button class="btn gray" id="gift-ok">Awesome!</button></div></div>`);
+        ART.drawPortraitTo(box.querySelector('#gift-cv'), def, 0);
+        box.querySelector('#gift-ok').onclick = () => { closeModal(); renderHome(); };
+        box.querySelector('#gift-deck').onclick = () => { state.swapCat = r.cat; closeModal(); toast('Now tap a deck slot to replace'); setTab('cats'); };
+      }
+      else if (r.ok) { SFX.fanfare(); updateWallet(); input.value = ''; toast(`🎉 +🌿 ${r.nip} Catnip!`, 2400); renderHome(); }
+      else if (r.reason === 'owned') toast(`You already have ${DATA.CAT_BY_ID[r.cat].name}! 😺`, 2200);
       else if (r.reason === 'used') toast('Already used today. Come back tomorrow! ⏰', 2200);
       else toast('Hmm, that’s not a code 🤔');
     };

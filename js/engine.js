@@ -92,7 +92,7 @@ const ENGINE = (() => {
           hp: st.hp, maxHp: st.hp, dmg: st.dmg, range: st.range, speed: st.speed, rate: st.rate, cd: 0.4,
           flying: !!st.flying, hitsAir: !!st.hitsAir, targetMode: st.target || 'any', area: st.area || 0, knockback: !!st.knockback,
           strongVs: st.strongVs || [], traits: st.traits || [], revive: st.revive || 0, lifesteal: st.lifesteal || 0, armor: st.armor || 0,
-          slow: st.slow || 0, freeze: st.freeze || 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
+          slow: st.slow || 0, freeze: st.freeze || 0, stun: st.stun || 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
           building: st.kind === 'building', spawns: st.spawns, spawnEvery: st.spawnEvery || 4, spawnT: st.spawnEvery ? 1.5 : 0, life: st.lifetime || 0,
           stunUntil: 0, slowUntil: 0, frozenUntil: 0, rageUntil: 0, flashUntil: 0, kbv: 0, bobT: Math.random() * 6, squash: 0,
           dead: false, dying: 0, boss: !!st.boss, healT: 0, dir: this.dir(owner), target: null,
@@ -100,6 +100,10 @@ const ENGINE = (() => {
         this.units.push(u); spawned.push(u);
       }
       this.effects.push({ type: 'puff', x: lx, y: cy, t: 0, dur: 0.4 });
+      if (fromHand && st.kibbleOnDeploy) {
+        const p = this.players[owner]; p.kibble = Math.min(KIBBLE_MAX, p.kibble + st.kibbleOnDeploy);
+        this.effects.push({ type: 'text', x: lx, y: cy - 30, txt: '+' + st.kibbleOnDeploy + ' 🐟 fans!', t: 0, dur: 1.2, color: '#5ec8ff' });
+      }
       return spawned;
     }
     castSpell(owner, card, x, y) {
@@ -143,6 +147,7 @@ const ENGINE = (() => {
       if (att && att.lifesteal) att.hp = Math.min(att.maxHp, att.hp + d * att.lifesteal);
       if (att && att.slow) tgt.slowUntil = Math.max(tgt.slowUntil, this.t + att.slow);
       if (att && att.freeze) tgt.frozenUntil = Math.max(tgt.frozenUntil, this.t + att.freeze);
+      if (att && att.stun && !tgt.boss) tgt.stunUntil = Math.max(tgt.stunUntil, this.t + att.stun);
       if (tgt.hp <= 0) {
         if (tgt.revive > 0) { tgt.revive--; tgt.hp = Math.round(tgt.maxHp * 0.5); tgt.stunUntil = this.t + 0.6; this.effects.push({ type: 'text', x: tgt.x, y: tgt.y - 20, txt: 'REVIVE!', t: 0, dur: 0.9, color: '#b8e0b0' }); }
         else { tgt.dead = true; tgt.dying = 0.35; this.onEvent('death', { unit: tgt }); }

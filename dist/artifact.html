@@ -91,8 +91,8 @@ h2{font-size:18px;}
 .reward-tag{position:absolute;right:10px;top:10px;font-size:11px;background:#0e1430;border-radius:10px;padding:3px 7px;color:var(--food);}
 
 /* cats */
-.deck{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;}
-.catcard{background:var(--panel);border-radius:12px;padding:4px;text-align:center;border:2px solid var(--r-basic);position:relative;}
+.deck{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:8px;}
+.catcard{min-width:0;background:var(--panel);border-radius:12px;padding:4px;text-align:center;border:2px solid var(--r-basic);position:relative;}
 .catcard canvas{width:100%;height:auto;display:block;border-radius:8px;background:#1b2340;}
 .catcard .n{font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
 .catcard .c{position:absolute;left:4px;top:4px;background:#5ec8ff;color:#062b40;font-weight:900;font-size:11px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff;}
@@ -100,7 +100,7 @@ h2{font-size:18px;}
 .catcard.locked{opacity:.45;filter:grayscale(.8);}
 .catcard.swap{outline:3px dashed var(--accent);}
 .catcard:active{transform:scale(.95);}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;}
 .rarity-basic{border-color:var(--r-basic)} .rarity-special{border-color:var(--r-special)} .rarity-rare{border-color:var(--r-rare)} .rarity-superrare{border-color:var(--r-superrare)} .rarity-uber{border-color:var(--r-uber);box-shadow:0 0 10px #ffb34766} .rarity-spell{border-color:var(--r-spell)}
 .rtext-basic{color:var(--r-basic)} .rtext-special{color:var(--r-special)} .rtext-rare{color:var(--r-rare)} .rtext-superrare{color:var(--r-superrare)} .rtext-uber{color:var(--r-uber)} .rtext-spell{color:var(--r-spell)}
 .section{margin-top:12px;}
@@ -477,6 +477,42 @@ const DATA = (() => {
         { name: 'Supreme Floof', look: look({ body: 'round', scale: 2.0, fluffy: true, hat: '👑', eyes: 'closed' }) },
         { name: 'The Floofinity', look: look({ body: 'round', scale: 2.2, fluffy: true, hat: '👑', eyes: 'glow', color: '#fff8e0' }) },
       ] }),
+    // ---------------- EXCLUSIVE UBERS (gift codes only) ----------------
+    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', exclusive: true, cost: 5, hp: 480, dmg: 92, range: 125, speed: 55, rate: 1.3, area: 40, hitsAir: true, slow: 1.5,
+      desc: 'Always on a call, always gaming. Its splash attacks LAG enemies so they crawl. Gift-only: ask the Game Master!',
+      forms: [
+        { name: 'Facetime Cat', look: look({ tablet: 'base' }) },
+        { name: 'Facetime Cat HD', look: look({ tablet: 'base', hat: '🎧', eyes: 'wide' }) },
+        { name: 'Facetime Cat 4K', look: look({ tablet: 'base', hat: '🎧', eyes: 'glow', color: '#f0f4ff', scale: 1.1 }) },
+      ], formAdd: [null, { slow: 2 }, { slow: 2.5 }] }),
+    cat({ id: 'facetimepro', name: 'Facetime Cat Pro', rarity: 'uber', exclusive: true, cost: 6, hp: 540, dmg: 135, range: 26, speed: 120, rate: 0.6, lifesteal: 0.3,
+      desc: 'Pro gamer reflexes. Sprints in, mashes buttons at lightning speed, and heals off every combo. Gift-only!',
+      forms: [
+        { name: 'Facetime Cat Pro', look: look({ tablet: 'pro', hat: '🎧', eyes: 'angry' }) },
+        { name: 'Facetime Cat Pro HD', look: look({ tablet: 'pro', hat: '🎧', eyes: 'angry', color: '#f3f3f3', speedlines: true }) },
+        { name: 'Facetime Cat Pro 4K', look: look({ tablet: 'pro', hat: '🏆', eyes: 'glow', color: '#eeeeff', speedlines: true, scale: 1.1 }) },
+      ] }),
+    cat({ id: 'facetimemax', name: 'Facetime Cat Max', rarity: 'uber', exclusive: true, cost: 8, hp: 2000, dmg: 150, range: 34, speed: 38, rate: 1.9, area: 56, knockback: true,
+      desc: 'The biggest screen. The biggest cat. Smashes whole groups back with a giant iPad. Gift-only!',
+      forms: [
+        { name: 'Facetime Cat Max', look: look({ tablet: 'max', body: 'wide', scale: 1.55, eyes: 'closed' }) },
+        { name: 'Facetime Cat Max HD', look: look({ tablet: 'max', body: 'wide', scale: 1.7, eyes: 'angry', hat: '🎧' }) },
+        { name: 'Facetime Cat Max 4K', look: look({ tablet: 'max', body: 'wide', scale: 1.85, eyes: 'glow', hat: '👑', color: '#fff8e8' }) },
+      ] }),
+    cat({ id: 'facetimeultra', name: 'Facetime Cat Ultra', rarity: 'uber', exclusive: true, cost: 7, hp: 560, dmg: 210, range: 150, speed: 50, rate: 2.0, flying: true, hitsAir: true, area: 50, freeze: 1.5,
+      desc: 'Flies on a hover-iPad and screen-FREEZES everything it hits. The rarest cat in the game. Gift-only!',
+      forms: [
+        { name: 'Facetime Cat Ultra', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#e8f0ff' }) },
+        { name: 'Facetime Cat Ultra HD', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#dce8ff', hat: '🎧' }) },
+        { name: 'Facetime Cat Ultra 4K', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#d0e0ff', hat: '🌟', scale: 1.15 }) },
+      ], formAdd: [null, { freeze: 2 }, { freeze: 2.5 }] }),
+    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', cost: 7, hp: 640, dmg: 150, range: 135, speed: 55, rate: 1.4, hitsAir: true, area: 46, stun: 0.8, kibbleOnDeploy: 2, exclusive: true,
+      desc: 'Streams every battle on his iPad while gaming. Enemies he hits LAG for a moment, and his fans tip you 2 Kibble when he shows up. Only the Game Master can give you this cat!',
+      forms: [
+        { name: 'Facetime Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide' }) },
+        { name: 'Streamer Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide', hat: '🎧', color: '#f0f4ff' }) },
+        { name: 'Esports Legend', look: look({ item: '📱', item2: '🎮', eyes: 'glow', hat: '🏆', color: '#e8f0ff', scale: 1.15 }) },
+      ], formAdd: [null, { stun: 1.0, kibbleOnDeploy: 3 }, { stun: 1.2, kibbleOnDeploy: 4 }] }),
     // ---------------- SPELLS ----------------
     { id: 'fishbomb', name: 'Fish Bomb', rarity: 'spell', cost: 3, kind: 'spell', radius: 72, dmg: 230, knockback: true, hitsAir: true,
       desc: 'Drop an exploding can of tuna anywhere. Big splash damage plus knockback.',
@@ -793,9 +829,26 @@ const ART = (() => {
         for (const d of [-1, 1]) { ctx.beginPath(); ctx.moveTo(d * rx * 0.5, ey + 6); ctx.lineTo(d * rx * 1.25, ey + 3); ctx.moveTo(d * rx * 0.5, ey + 9); ctx.lineTo(d * rx * 1.25, ey + 11); ctx.stroke(); }
       }
     }
+    // iPad with a game controller (Facetime Cat family)
+    if (look.tablet) {
+      const big = look.tablet === 'max';
+      const tw = rx * (big ? 1.7 : 1.35), th = ry * (big ? 1.15 : 0.95), tx = -tw / 2, ty = ry * 0.05;
+      const screen = { base: '#3fb8ff', pro: '#ff6b8a', max: '#ffd166', ultra: '#b48cff' }[look.tablet] || '#3fb8ff';
+      rrect(ctx, tx, ty, tw, th, 4, '#2a2d38', OUTLINE, 2);
+      rrect(ctx, tx + 3, ty + 3, tw - 6, th - 6, 2, screen);
+      // tiny caller on screen (it's a Facetime call!)
+      ellipse(ctx, 0, ty + th * 0.5, tw * 0.16, th * 0.2, '#fff', OUTLINE, 1);
+      ellipse(ctx, -tw * 0.06, ty + th * 0.45, 1.2, 1.2, OUTLINE); ellipse(ctx, tw * 0.06, ty + th * 0.45, 1.2, 1.2, OUTLINE);
+      ctx.strokeStyle = OUTLINE; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, ty + th * 0.52, 2.2, 0.2, Math.PI - 0.2); ctx.stroke();
+      ellipse(ctx, 0, ty + th - 2.5, 1.5, 1.5, '#777'); // home button
+      // paws holding the sides
+      ellipse(ctx, tx + 1, ty + th * 0.55, 4, 3.5, color, OUTLINE, 1.5); ellipse(ctx, tx + tw - 1, ty + th * 0.55, 4, 3.5, color, OUTLINE, 1.5);
+      emoji(ctx, '🎮', tx + tw * 0.95, ty + th * 0.9, s * (big ? 1.0 : 0.9));
+    }
     // props
     if (look.hat) emoji(ctx, look.hat, 0, -ry * 1.25, s * 1.2);
     if (look.item) emoji(ctx, look.item, rx * 1.05, ry * 0.05, s * 1.3);
+    if (look.item2) emoji(ctx, look.item2, -rx * 1.05, ry * 0.15, s * 1.2);
     if (look.emoji) emoji(ctx, look.emoji, 0, 0, s * 2.4);
     if (look.speedlines) { ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 2; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(-rx * 1.2, i * 6); ctx.lineTo(-rx * 1.9, i * 6); ctx.stroke(); } }
 
@@ -1019,7 +1072,7 @@ const SAVE = (() => {
     const odds = DATA.CAPSULE_ODDS; const total = Object.values(odds).reduce((a, b) => a + b, 0);
     let r = Math.random() * total, rarity = 'special';
     for (const k in odds) { r -= odds[k]; if (r <= 0) { rarity = k; break; } }
-    let pool = DATA.CATS.filter(c => c.rarity === rarity);
+    let pool = DATA.CATS.filter(c => c.rarity === rarity && !c.exclusive);
     const unowned = pool.filter(c => !P.cats[c.id]);
     if (unowned.length && (Math.random() < 0.65 || unowned.length === pool.length)) pool = unowned;
     const def = pool[Math.floor(Math.random() * pool.length)];
@@ -1104,12 +1157,24 @@ const SAVE = (() => {
     { nip: 50, food: 2000, icon: '🛒', name: 'Mega Haul' },
   ];
   function buyFood(i) { const b = FOOD_BUNDLES[i]; if (!b || P.nip < b.nip) return null; P.nip -= b.nip; P.food += b.food; save(); return b; }
-  const PROMO_CODES = { lawsonisthebest: { nip: 50 } };
+  // Catnip codes work once per day. Cat codes are one-time gifts of an exclusive cat.
+  const PROMO_CODES = {
+    lawsonisthebest: { nip: 50 },
+    facetimecat: { cat: 'facetime' },
+    facetimepro: { cat: 'facetimepro' },
+    facetimemax: { cat: 'facetimemax' },
+    facetimeultra: { cat: 'facetimeultra' },
+  };
   function redeemPromo(raw) {
     const code = String(raw || '').trim().toLowerCase().replace(/\s+/g, '');
     const promo = PROMO_CODES[code];
     if (!promo) return { ok: false, reason: 'invalid' };
     if (!P.promo) P.promo = {};
+    if (promo.cat) {
+      if (P.cats[promo.cat]) return { ok: false, reason: 'owned', cat: promo.cat };
+      grant(promo.cat); P.promo[code] = 'claimed'; save();
+      return { ok: true, cat: promo.cat };
+    }
     if (P.promo[code] === today()) return { ok: false, reason: 'used' };
     P.promo[code] = today(); P.nip += promo.nip; save();
     return { ok: true, nip: promo.nip };
@@ -1215,7 +1280,7 @@ const ENGINE = (() => {
           hp: st.hp, maxHp: st.hp, dmg: st.dmg, range: st.range, speed: st.speed, rate: st.rate, cd: 0.4,
           flying: !!st.flying, hitsAir: !!st.hitsAir, targetMode: st.target || 'any', area: st.area || 0, knockback: !!st.knockback,
           strongVs: st.strongVs || [], traits: st.traits || [], revive: st.revive || 0, lifesteal: st.lifesteal || 0, armor: st.armor || 0,
-          slow: st.slow || 0, freeze: st.freeze || 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
+          slow: st.slow || 0, freeze: st.freeze || 0, stun: st.stun || 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
           building: st.kind === 'building', spawns: st.spawns, spawnEvery: st.spawnEvery || 4, spawnT: st.spawnEvery ? 1.5 : 0, life: st.lifetime || 0,
           stunUntil: 0, slowUntil: 0, frozenUntil: 0, rageUntil: 0, flashUntil: 0, kbv: 0, bobT: Math.random() * 6, squash: 0,
           dead: false, dying: 0, boss: !!st.boss, healT: 0, dir: this.dir(owner), target: null,
@@ -1223,6 +1288,10 @@ const ENGINE = (() => {
         this.units.push(u); spawned.push(u);
       }
       this.effects.push({ type: 'puff', x: lx, y: cy, t: 0, dur: 0.4 });
+      if (fromHand && st.kibbleOnDeploy) {
+        const p = this.players[owner]; p.kibble = Math.min(KIBBLE_MAX, p.kibble + st.kibbleOnDeploy);
+        this.effects.push({ type: 'text', x: lx, y: cy - 30, txt: '+' + st.kibbleOnDeploy + ' 🐟 fans!', t: 0, dur: 1.2, color: '#5ec8ff' });
+      }
       return spawned;
     }
     castSpell(owner, card, x, y) {
@@ -1266,6 +1335,7 @@ const ENGINE = (() => {
       if (att && att.lifesteal) att.hp = Math.min(att.maxHp, att.hp + d * att.lifesteal);
       if (att && att.slow) tgt.slowUntil = Math.max(tgt.slowUntil, this.t + att.slow);
       if (att && att.freeze) tgt.frozenUntil = Math.max(tgt.frozenUntil, this.t + att.freeze);
+      if (att && att.stun && !tgt.boss) tgt.stunUntil = Math.max(tgt.stunUntil, this.t + att.stun);
       if (tgt.hp <= 0) {
         if (tgt.revive > 0) { tgt.revive--; tgt.hp = Math.round(tgt.maxHp * 0.5); tgt.stunUntil = this.t + 0.6; this.effects.push({ type: 'text', x: tgt.x, y: tgt.y - 20, txt: 'REVIVE!', t: 0, dur: 0.9, color: '#b8e0b0' }); }
         else { tgt.dead = true; tgt.dying = 0.35; this.onEvent('death', { unit: tgt }); }
@@ -1652,6 +1722,7 @@ const UI = (() => {
     ART.drawPortraitTo(cv, def, c ? c.form : 0);
     d.appendChild(el('div', 'c', def.cost));
     if (c) d.appendChild(el('div', 'lv', 'Lv' + c.level));
+    else if (def.exclusive) d.appendChild(el('div', 'lv', '🔒 Secret')); else if (def.exclusive) d.appendChild(el('div', 'lv', '🎁'));
     d.appendChild(el('div', 'n', c ? def.forms[c.form].name : def.name));
     if (opts.onclick) d.onclick = () => { SFX.click(); opts.onclick(id, d); };
     return d;
@@ -1796,7 +1867,7 @@ const UI = (() => {
       if (!inDeck) { const ub = el('button', 'btn', '🃏 Use in Deck'); ub.onclick = () => { state.swapCat = id; closeModal(); toast('Now tap a deck slot to replace'); renderHome(); }; act.appendChild(ub); }
       else act.appendChild(el('div', 'tag', '✔ In your deck'));
     } else {
-      act.appendChild(el('div', 'desc', def.rarity === 'basic' ? '🔓 Unlock by beating a World boss.' : '🎁 Get it from the Toy Capsule Machine, or as a stage reward!'));
+      act.appendChild(el('div', 'desc', def.exclusive ? '🎁 <b>Exclusive!</b> This cat is not in any capsule or stage. Only the Game Master can give you the gift code for it. Enter it in the Shop.' : def.rarity === 'basic' ? '🔓 Unlock by beating a World boss.' : '🎁 Get it from the Toy Capsule Machine, or as a stage reward!'));
     }
     const cl = el('button', 'btn gray', 'Close'); cl.onclick = () => { SFX.click(); closeModal(); }; act.appendChild(cl);
   }
@@ -1845,7 +1916,7 @@ const UI = (() => {
     info.innerHTML = `<div class="whead"><div class="wicon" style="background:#2a3358">🌿</div><div><div class="wname">Earn it in battle</div><div class="wdesc">First-time stage clears give 8 🌿, bosses give 30 🌿. Daily quests give a 10 🌿 bonus, and Toy Boxes sometimes have Catnip too.</div></div></div>`;
     body.appendChild(info);
     const vm = el('div', 'world');
-    vm.innerHTML = `<div class="whead"><div class="wicon" style="background:#1f78d1">💸</div><div><div class="wname">Ask the Game Master</div><div class="wdesc">Want a Catnip top-up? Send a tip on Venmo and ask for a promo code!</div></div></div>`;
+    vm.innerHTML = `<div class="whead"><div class="wicon" style="background:#1f78d1">💸</div><div><div class="wname">Ask the Game Master</div><div class="wdesc">Want a Catnip top-up or an <b>exclusive Facetime Cat</b>? Send a tip on Venmo and ask for a code!</div></div></div>`;
     const a = el('a', 'venmo', '💙 Venmo @joeray26'); a.href = 'https://venmo.com/u/joeray26'; a.target = '_blank'; a.rel = 'noopener';
     vm.appendChild(a);
     vm.appendChild(el('div', 'sub', '<br>Got a promo code? Enter it here (one use per day):'));
@@ -1854,7 +1925,15 @@ const UI = (() => {
     const go = el('button', 'btn', 'Redeem');
     const redeem = () => {
       const r = SAVE.redeemPromo(input.value);
-      if (r.ok) { SFX.fanfare(); updateWallet(); input.value = ''; toast(`🎉 +🌿 ${r.nip} Catnip!`, 2400); renderHome(); }
+      if (r.ok && r.cat) {
+        SFX.fanfare(); input.value = ''; const def = DATA.CAT_BY_ID[r.cat];
+        const box = modal(`<div class="center"><div class="sub">🎁 A GIFT FROM THE GAME MASTER! 🎁</div><div class="reveal"><canvas width="140" height="140" id="gift-cv" style="background:#1b2340;border-radius:20px"></canvas></div><div class="mtitle">${def.name}</div><div class="rtext-uber" style="font-weight:800">Exclusive Uber Rare</div><div class="desc">${def.desc}</div><div class="row"><button class="btn green" id="gift-deck">🃏 Use in Deck</button><button class="btn gray" id="gift-ok">Awesome!</button></div></div>`);
+        ART.drawPortraitTo(box.querySelector('#gift-cv'), def, 0);
+        box.querySelector('#gift-ok').onclick = () => { closeModal(); renderHome(); };
+        box.querySelector('#gift-deck').onclick = () => { state.swapCat = r.cat; closeModal(); toast('Now tap a deck slot to replace'); setTab('cats'); };
+      }
+      else if (r.ok) { SFX.fanfare(); updateWallet(); input.value = ''; toast(`🎉 +🌿 ${r.nip} Catnip!`, 2400); renderHome(); }
+      else if (r.reason === 'owned') toast(`You already have ${DATA.CAT_BY_ID[r.cat].name}! 😺`, 2200);
       else if (r.reason === 'used') toast('Already used today. Come back tomorrow! ⏰', 2200);
       else toast('Hmm, that’s not a code 🤔');
     };
