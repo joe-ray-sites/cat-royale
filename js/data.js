@@ -182,6 +182,20 @@ const DATA = (() => {
         { name: 'Mecha Cat', look: look({ color: '#b0bcd4', antenna: true, eyes: 'glow', body: 'box', hat: '⚙️' }) },
         { name: 'Titan Mech', look: look({ color: '#98a8c8', antenna: true, eyes: 'glow', body: 'box', hat: '🤖', scale: 1.25 }) },
       ] }),
+    cat({ id: 'goggles', name: 'Goggles Cat', rarity: 'superrare', cost: 4, hp: 280, dmg: 50, range: 125, speed: 55, rate: 1.0, hitsAir: true, critEvery: 5, critMult: 1.5,
+      desc: 'Swim team captain. Squirts enemies with a water gun for 50 damage, and every 5th shot is a CRITICAL HIT for 75!',
+      forms: [
+        { name: 'Goggles Cat', look: look({ goggles: true, swimcap: '#2f7bff', item: '🔫' }) },
+        { name: 'Lifeguard Cat', look: look({ goggles: true, swimcap: '#ff4d4d', item: '🔫', hat: '🛟' }) },
+        { name: 'Olympic Cat', look: look({ goggles: true, swimcap: '#ffd166', item: '🔫', hat: '🥇', color: '#f4fbff', scale: 1.1 }) },
+      ], formAdd: [null, { critEvery: 4 }, { critEvery: 3, critMult: 1.75 }] }),
+    cat({ id: 'hubba', name: 'Hubba Bubba Cat', rarity: 'superrare', cost: 3, hp: 320, dmg: 0, range: 120, speed: 55, rate: 5, area: 50, hitsAir: true, stick: 2.5, exclusive: true,
+      desc: 'Chews an entire pack at once. Every 5 seconds it throws a wad of gum: zero damage, but everyone it splats is STUCK in place for a few seconds. Gift-only!',
+      forms: [
+        { name: 'Hubba Bubba Cat', look: look({ bubble: 1, eyes: 'wide' }) },
+        { name: 'Bubble Blower Cat', look: look({ bubble: 1.4, eyes: 'wide', hat: '🧢' }) },
+        { name: 'Gum Master Cat', look: look({ bubble: 1.8, eyes: 'glow', hat: '👑', color: '#fff0f6', scale: 1.1 }) },
+      ], formAdd: [null, { stick: 3, rate: 4.5 }, { stick: 3.5, rate: 4, area: 60 }] }),
     // ---------------- UBER ----------------
     cat({ id: 'valkyrie', name: 'Valkyrie Cat', rarity: 'uber', cost: 6, hp: 820, dmg: 165, range: 32, speed: 65, rate: 1.3, area: 50, knockback: true,
       desc: 'A legendary warrior. Sweeps whole groups back with a giant spear.',
@@ -212,13 +226,13 @@ const DATA = (() => {
         { name: 'The Floofinity', look: look({ body: 'round', scale: 2.2, fluffy: true, hat: '👑', eyes: 'glow', color: '#fff8e0' }) },
       ] }),
     // ---------------- EXCLUSIVE UBERS (gift codes only) ----------------
-    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', exclusive: true, cost: 5, hp: 480, dmg: 92, range: 125, speed: 55, rate: 1.3, area: 40, hitsAir: true, slow: 1.5,
-      desc: 'Always on a call, always gaming. Its splash attacks LAG enemies so they crawl. Gift-only: ask the Game Master!',
+    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', exclusive: true, cost: 5, hp: 480, dmg: 92, range: 125, speed: 55, rate: 1.3, area: 40, hitsAir: true, slow: 1.5, kibbleOnDeploy: 2,
+      desc: 'Always on a call, always gaming. Its splash attacks LAG enemies so they crawl, and its fans tip you 2 Kibble whenever it shows up. Gift-only: ask the Game Master!',
       forms: [
         { name: 'Facetime Cat', look: look({ tablet: 'base' }) },
         { name: 'Facetime Cat HD', look: look({ tablet: 'base', hat: '🎧', eyes: 'wide' }) },
         { name: 'Facetime Cat 4K', look: look({ tablet: 'base', hat: '🎧', eyes: 'glow', color: '#f0f4ff', scale: 1.1 }) },
-      ], formAdd: [null, { slow: 2 }, { slow: 2.5 }] }),
+      ], formAdd: [null, { slow: 2, kibbleOnDeploy: 3 }, { slow: 2.5, kibbleOnDeploy: 4 }] }),
     cat({ id: 'facetimepro', name: 'Facetime Cat Pro', rarity: 'uber', exclusive: true, cost: 6, hp: 540, dmg: 135, range: 26, speed: 120, rate: 0.6, lifesteal: 0.3,
       desc: 'Pro gamer reflexes. Sprints in, mashes buttons at lightning speed, and heals off every combo. Gift-only!',
       forms: [
@@ -240,13 +254,6 @@ const DATA = (() => {
         { name: 'Facetime Cat Ultra HD', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#dce8ff', hat: '🎧' }) },
         { name: 'Facetime Cat Ultra 4K', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#d0e0ff', hat: '🌟', scale: 1.15 }) },
       ], formAdd: [null, { freeze: 2 }, { freeze: 2.5 }] }),
-    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', cost: 7, hp: 640, dmg: 150, range: 135, speed: 55, rate: 1.4, hitsAir: true, area: 46, stun: 0.8, kibbleOnDeploy: 2, exclusive: true,
-      desc: 'Streams every battle on his iPad while gaming. Enemies he hits LAG for a moment, and his fans tip you 2 Kibble when he shows up. Only the Game Master can give you this cat!',
-      forms: [
-        { name: 'Facetime Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide' }) },
-        { name: 'Streamer Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide', hat: '🎧', color: '#f0f4ff' }) },
-        { name: 'Esports Legend', look: look({ item: '📱', item2: '🎮', eyes: 'glow', hat: '🏆', color: '#e8f0ff', scale: 1.15 }) },
-      ], formAdd: [null, { stun: 1.0, kibbleOnDeploy: 3 }, { stun: 1.2, kibbleOnDeploy: 4 }] }),
     // ---------------- SPELLS ----------------
     { id: 'fishbomb', name: 'Fish Bomb', rarity: 'spell', cost: 3, kind: 'spell', radius: 72, dmg: 230, knockback: true, hitsAir: true,
       desc: 'Drop an exploding can of tuna anywhere. Big splash damage plus knockback.',

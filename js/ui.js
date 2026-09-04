@@ -31,7 +31,7 @@ const UI = (() => {
     ART.drawPortraitTo(cv, def, c ? c.form : 0);
     d.appendChild(el('div', 'c', def.cost));
     if (c) d.appendChild(el('div', 'lv', 'Lv' + c.level));
-    else if (def.exclusive) d.appendChild(el('div', 'lv', '🔒 Secret')); else if (def.exclusive) d.appendChild(el('div', 'lv', '🎁'));
+    else if (def.exclusive) d.appendChild(el('div', 'lv', '🎁 Gift'));
     d.appendChild(el('div', 'n', c ? def.forms[c.form].name : def.name));
     if (opts.onclick) d.onclick = () => { SFX.click(); opts.onclick(id, d); };
     return d;
@@ -141,7 +141,7 @@ const UI = (() => {
     if (st.target === 'buildings') tags.push('🏠 Targets towers'); if (st.knockback) tags.push('👊 Knockback'); if (st.count > 1) tags.push('👥 x' + st.count);
     if (st.strongVs) st.strongVs.forEach(t => tags.push('💪 Strong vs ' + DATA.TRAIT_INFO[t].icon + ' ' + DATA.TRAIT_INFO[t].name));
     if (st.revive) tags.push('🧟 Revives x' + st.revive); if (st.lifesteal) tags.push('🩸 Lifesteal'); if (st.armor) tags.push('🛡️ Armor ' + Math.round(st.armor * 100) + '%');
-    if (st.slow) tags.push('🐌 Slows ' + st.slow + 's'); if (st.freeze) tags.push('🧊 Freezes ' + st.freeze + 's'); if (st.pierce) tags.push('⚡ Pierces lane'); if (st.suicide) tags.push('💣 Explodes'); if (st.heal) tags.push('💚 Heals ' + st.heal + '/s');
+    if (st.stick) tags.push('🍬 Sticks enemies ' + st.stick + 's'); if (st.critEvery) tags.push('💦 Crit every ' + st.critEvery + ' shots (' + Math.round(st.dmg * st.critMult) + ' dmg)'); if (st.slow) tags.push('🐌 Slows ' + st.slow + 's'); if (st.freeze) tags.push('🧊 Freezes ' + st.freeze + 's'); if (st.pierce) tags.push('⚡ Pierces lane'); if (st.suicide) tags.push('💣 Explodes'); if (st.heal) tags.push('💚 Heals ' + st.heal + '/s');
     if (st.spawns) tags.push('📦 Spawns Kitty every ' + st.spawnEvery + 's'); if (st.traits && st.traits.length) st.traits.forEach(t => tags.push(DATA.TRAIT_INFO[t].icon + ' ' + DATA.TRAIT_INFO[t].name));
     return tags;
   }
@@ -236,7 +236,7 @@ const UI = (() => {
       const r = SAVE.redeemPromo(input.value);
       if (r.ok && r.cat) {
         SFX.fanfare(); input.value = ''; const def = DATA.CAT_BY_ID[r.cat];
-        const box = modal(`<div class="center"><div class="sub">🎁 A GIFT FROM THE GAME MASTER! 🎁</div><div class="reveal"><canvas width="140" height="140" id="gift-cv" style="background:#1b2340;border-radius:20px"></canvas></div><div class="mtitle">${def.name}</div><div class="rtext-uber" style="font-weight:800">Exclusive Uber Rare</div><div class="desc">${def.desc}</div><div class="row"><button class="btn green" id="gift-deck">🃏 Use in Deck</button><button class="btn gray" id="gift-ok">Awesome!</button></div></div>`);
+        const box = modal(`<div class="center"><div class="sub">🎁 A GIFT FROM THE GAME MASTER! 🎁</div><div class="reveal"><canvas width="140" height="140" id="gift-cv" style="background:#1b2340;border-radius:20px"></canvas></div><div class="mtitle">${def.name}</div><div class="rtext-${def.rarity}" style="font-weight:800">Exclusive ${RN(def.rarity)}</div><div class="desc">${def.desc}</div><div class="row"><button class="btn green" id="gift-deck">🃏 Use in Deck</button><button class="btn gray" id="gift-ok">Awesome!</button></div></div>`);
         ART.drawPortraitTo(box.querySelector('#gift-cv'), def, 0);
         box.querySelector('#gift-ok').onclick = () => { closeModal(); renderHome(); };
         box.querySelector('#gift-deck').onclick = () => { state.swapCat = r.cat; closeModal(); toast('Now tap a deck slot to replace'); setTab('cats'); };

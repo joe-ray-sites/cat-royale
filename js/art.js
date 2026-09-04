@@ -43,7 +43,26 @@ const ART = (() => {
    * Draw a creature. (x,y) = body center. s = base radius (about 16 for a normal unit).
    * o = { bob, squash, flash, alpha, hpFrac, stunned, frozen, raged, dying }
    */
+  // Status tints (hit flash, frozen, gummed, raged) are painted with source-atop, which only works on a
+  // transparent surface, so a tinted creature is drawn on this scratch canvas and then copied over.
+  const tintCanvas = typeof document !== 'undefined' ? document.createElement('canvas') : null;
+  function tintFor(o) { return o.flash ? 'rgba(255,80,80,0.55)' : o.frozen ? 'rgba(120,200,255,0.5)' : o.gummed ? 'rgba(255,110,180,0.45)' : o.raged ? 'rgba(160,255,120,0.3)' : null; }
   function drawCreature(ctx, look, x, y, s, o = {}) {
+    const tint = tintFor(o);
+    if (tint && !o._off && tintCanvas) {
+      const sc = s * (look.scale || 1);
+      const { rx: rx0, ry: ry0 } = bodyDims(look, sc);
+      const size = Math.ceil(sc * 9) + 40;
+      tintCanvas.width = size; tintCanvas.height = size;
+      const tc = tintCanvas.getContext('2d');
+      // shadow stays on the real canvas so it isn't tinted
+      ctx.save(); ctx.globalAlpha = o.alpha == null ? 1 : o.alpha; ctx.fillStyle = 'rgba(0,0,0,0.18)';
+      ctx.beginPath(); ctx.ellipse(x, y + ry0 + 3, rx0 * 0.9, ry0 * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+      drawCreature(tc, look, size / 2, size / 2, s, Object.assign({}, o, { _off: true, alpha: 1, noShadow: true }));
+      ctx.drawImage(tintCanvas, x - size / 2, y - size / 2);
+      ctx.restore();
+      return;
+    }
     s *= (look.scale || 1);
     const { rx, ry } = bodyDims(look, s);
     const color = look.color || '#fff';
@@ -55,8 +74,10 @@ const ART = (() => {
     if (o.facing === -1) ctx.scale(-1, 1);
 
     // shadow
-    ctx.fillStyle = 'rgba(0,0,0,0.18)';
-    ctx.beginPath(); ctx.ellipse(0, ry + 3 - bob, rx * 0.9, ry * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+    if (!o.noShadow) {
+      ctx.fillStyle = 'rgba(0,0,0,0.18)';
+      ctx.beginPath(); ctx.ellipse(0, ry + 3 - bob, rx * 0.9, ry * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+    }
 
     // behind-body props
     if (look.cape) {
@@ -150,6 +171,12 @@ const ART = (() => {
     if (look.hair === 'mohawk') { ctx.fillStyle = '#ff5252'; ctx.strokeStyle = OUTLINE; ctx.lineWidth = 2; ctx.beginPath(); for (let i = -2; i <= 2; i++) { ctx.moveTo(i * rx * 0.2 - rx * 0.12, -ry * 0.85); ctx.lineTo(i * rx * 0.2, -ry * 1.7); ctx.lineTo(i * rx * 0.2 + rx * 0.12, -ry * 0.85); } ctx.closePath(); ctx.fill(); ctx.stroke(); }
     if (look.hair === 'long') { ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.moveTo(-rx * 0.9, -ry * 0.6); ctx.quadraticCurveTo(-rx * 1.3, ry * 0.4, -rx * 0.9, ry * 0.9); ctx.lineTo(-rx * 0.6, ry * 0.2); ctx.closePath(); ctx.fill(); ctx.strokeStyle = OUTLINE; ctx.lineWidth = 1.5; ctx.stroke(); }
 
+    // swim cap (Goggles Cat): a dome over the top of the head, drawn before the face
+    if (look.swimcap) {
+      ctx.save(); ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2); ctx.clip();
+      ellipse(ctx, 0, -ry * 0.35, rx * 1.02, ry * 0.62, look.swimcap, OUTLINE, 2);
+      ctx.restore();
+    }
     // face
     const ey = -ry * 0.15, ex = rx * 0.38;
     if (look.mask) { ctx.fillStyle = '#2a2a33'; ctx.fillRect(-rx * 0.85, ey - ry * 0.28, rx * 1.7, ry * 0.5); }
@@ -198,6 +225,18 @@ const ART = (() => {
         for (const d of [-1, 1]) { ctx.beginPath(); ctx.moveTo(d * rx * 0.5, ey + 6); ctx.lineTo(d * rx * 1.25, ey + 3); ctx.moveTo(d * rx * 0.5, ey + 9); ctx.lineTo(d * rx * 1.25, ey + 11); ctx.stroke(); }
       }
     }
+    // swim goggles (Goggles Cat): blue lenses over the eyes with a strap
+    if (look.goggles) {
+      ctx.strokeStyle = '#1b2340'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(-rx * 0.95, ey - 1); ctx.lineTo(rx * 0.95, ey - 1); ctx.stroke();
+      for (const d of [-1, 1]) { ellipse(ctx, d * ex, ey, 6.5, 5.5, 'rgba(90,200,255,0.85)', '#1b2340', 2); ellipse(ctx, d * ex - 2, ey - 2, 2, 1.3, 'rgba(255,255,255,0.85)'); ellipse(ctx, d * ex + 1, ey + 0.5, 1.8, 1.8, OUTLINE); }
+      ctx.strokeStyle = '#1b2340'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-ex + 6.5, ey); ctx.lineTo(ex - 6.5, ey); ctx.stroke();
+    }
+    // bubble gum bubble (Hubba Bubba Cat)
+    if (look.bubble) {
+      const br = s * 0.55 * look.bubble, bx = rx * 0.55, by = ey + 12 + br * 0.6;
+      ellipse(ctx, bx, by, br, br, 'rgba(255,120,180,0.85)', '#c2447a', 1.5);
+      ellipse(ctx, bx - br * 0.35, by - br * 0.35, br * 0.22, br * 0.16, 'rgba(255,255,255,0.8)');
+    }
     // iPad with a game controller (Facetime Cat family)
     if (look.tablet) {
       const big = look.tablet === 'max';
@@ -221,11 +260,10 @@ const ART = (() => {
     if (look.emoji) emoji(ctx, look.emoji, 0, 0, s * 2.4);
     if (look.speedlines) { ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 2; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(-rx * 1.2, i * 6); ctx.lineTo(-rx * 1.9, i * 6); ctx.stroke(); } }
 
-    // status overlays
-    if (o.flash) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(255,80,80,0.55)'; ctx.fillRect(-rx * 2.2, -ry * 2.2, rx * 4.4, ry * 4.4); ctx.globalCompositeOperation = 'source-over'; }
-    if (o.frozen) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(120,200,255,0.5)'; ctx.fillRect(-rx * 2.2, -ry * 2.2, rx * 4.4, ry * 4.4); ctx.globalCompositeOperation = 'source-over'; }
-    if (o.raged) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(160,255,120,0.3)'; ctx.fillRect(-rx * 2.2, -ry * 2.2, rx * 4.4, ry * 4.4); ctx.globalCompositeOperation = 'source-over'; }
-    if (o.stunned) emoji(ctx, '💫', 0, -ry * 1.6 - (look.hat ? 10 : 0), 13);
+    // status overlays (only ever reached on the transparent scratch canvas)
+    if (o._off && tint) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = tint; ctx.fillRect(-rx * 5, -ry * 5, rx * 10, ry * 10); ctx.globalCompositeOperation = 'source-over'; }
+    if (o.gummed) emoji(ctx, '🍬', 0, -ry * 1.6 - (look.hat ? 10 : 0), 13);
+    else if (o.stunned) emoji(ctx, '💫', 0, -ry * 1.6 - (look.hat ? 10 : 0), 13);
     ctx.restore();
   }
 

@@ -35,6 +35,7 @@ const GAME = (() => {
       case 'spell': SFX.spell(); if (d.owner === 0) SAVE.questEvent('spell'); break;
       case 'hit': if (Math.random() < 0.3) SFX.hit(); break;
       case 'boom': SFX.boom(); break;
+      case 'crit': if (d.owner === 0) SFX.coin(); break;
       case 'cannon': SFX.cannon(); if (d.owner === 0) SAVE.questEvent('cannon'); banner(d.owner === 0 ? '🔫 CAT CANNON!' : '🔫 ENEMY CANNON!', 1000); break;
       case 'towerDown': SFX.towerDown(); if (d.winner === 0) SAVE.questEvent('tower'); if (!battle.over) banner(d.winner === 0 ? '🐾 TOWER DOWN!' : '😿 We lost a tower!', 1300); break;
       case 'double': banner('🐟 DOUBLE KIBBLE!', 1500); SFX.alarm(); break;

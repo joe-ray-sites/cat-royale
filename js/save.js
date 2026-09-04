@@ -150,10 +150,11 @@ const SAVE = (() => {
   // Catnip codes work once per day. Cat codes are one-time gifts of an exclusive cat.
   const PROMO_CODES = {
     lawsonisthebest: { nip: 50 },
-    facetimecat: { cat: 'facetime' },
-    facetimepro: { cat: 'facetimepro' },
-    facetimemax: { cat: 'facetimemax' },
-    facetimeultra: { cat: 'facetimeultra' },
+    ethanwalker: { cat: 'facetime' },      // typed as "Ethan Walker"
+    leviemmons: { cat: 'facetimepro' },    // "Levi Emmons"
+    lawsonray: { cat: 'facetimemax' },     // "Lawson Ray"
+    henrypope: { cat: 'facetimeultra' },
+    jabash22: { cat: 'hubba' },            // "Jabash22"   // "Henry Pope"
   };
   function redeemPromo(raw) {
     const code = String(raw || '').trim().toLowerCase().replace(/\s+/g, '');

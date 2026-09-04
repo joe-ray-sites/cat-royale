@@ -448,6 +448,20 @@ const DATA = (() => {
         { name: 'Mecha Cat', look: look({ color: '#b0bcd4', antenna: true, eyes: 'glow', body: 'box', hat: '⚙️' }) },
         { name: 'Titan Mech', look: look({ color: '#98a8c8', antenna: true, eyes: 'glow', body: 'box', hat: '🤖', scale: 1.25 }) },
       ] }),
+    cat({ id: 'goggles', name: 'Goggles Cat', rarity: 'superrare', cost: 4, hp: 280, dmg: 50, range: 125, speed: 55, rate: 1.0, hitsAir: true, critEvery: 5, critMult: 1.5,
+      desc: 'Swim team captain. Squirts enemies with a water gun for 50 damage, and every 5th shot is a CRITICAL HIT for 75!',
+      forms: [
+        { name: 'Goggles Cat', look: look({ goggles: true, swimcap: '#2f7bff', item: '🔫' }) },
+        { name: 'Lifeguard Cat', look: look({ goggles: true, swimcap: '#ff4d4d', item: '🔫', hat: '🛟' }) },
+        { name: 'Olympic Cat', look: look({ goggles: true, swimcap: '#ffd166', item: '🔫', hat: '🥇', color: '#f4fbff', scale: 1.1 }) },
+      ], formAdd: [null, { critEvery: 4 }, { critEvery: 3, critMult: 1.75 }] }),
+    cat({ id: 'hubba', name: 'Hubba Bubba Cat', rarity: 'superrare', cost: 3, hp: 320, dmg: 0, range: 120, speed: 55, rate: 5, area: 50, hitsAir: true, stick: 2.5, exclusive: true,
+      desc: 'Chews an entire pack at once. Every 5 seconds it throws a wad of gum: zero damage, but everyone it splats is STUCK in place for a few seconds. Gift-only!',
+      forms: [
+        { name: 'Hubba Bubba Cat', look: look({ bubble: 1, eyes: 'wide' }) },
+        { name: 'Bubble Blower Cat', look: look({ bubble: 1.4, eyes: 'wide', hat: '🧢' }) },
+        { name: 'Gum Master Cat', look: look({ bubble: 1.8, eyes: 'glow', hat: '👑', color: '#fff0f6', scale: 1.1 }) },
+      ], formAdd: [null, { stick: 3, rate: 4.5 }, { stick: 3.5, rate: 4, area: 60 }] }),
     // ---------------- UBER ----------------
     cat({ id: 'valkyrie', name: 'Valkyrie Cat', rarity: 'uber', cost: 6, hp: 820, dmg: 165, range: 32, speed: 65, rate: 1.3, area: 50, knockback: true,
       desc: 'A legendary warrior. Sweeps whole groups back with a giant spear.',
@@ -478,13 +492,13 @@ const DATA = (() => {
         { name: 'The Floofinity', look: look({ body: 'round', scale: 2.2, fluffy: true, hat: '👑', eyes: 'glow', color: '#fff8e0' }) },
       ] }),
     // ---------------- EXCLUSIVE UBERS (gift codes only) ----------------
-    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', exclusive: true, cost: 5, hp: 480, dmg: 92, range: 125, speed: 55, rate: 1.3, area: 40, hitsAir: true, slow: 1.5,
-      desc: 'Always on a call, always gaming. Its splash attacks LAG enemies so they crawl. Gift-only: ask the Game Master!',
+    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', exclusive: true, cost: 5, hp: 480, dmg: 92, range: 125, speed: 55, rate: 1.3, area: 40, hitsAir: true, slow: 1.5, kibbleOnDeploy: 2,
+      desc: 'Always on a call, always gaming. Its splash attacks LAG enemies so they crawl, and its fans tip you 2 Kibble whenever it shows up. Gift-only: ask the Game Master!',
       forms: [
         { name: 'Facetime Cat', look: look({ tablet: 'base' }) },
         { name: 'Facetime Cat HD', look: look({ tablet: 'base', hat: '🎧', eyes: 'wide' }) },
         { name: 'Facetime Cat 4K', look: look({ tablet: 'base', hat: '🎧', eyes: 'glow', color: '#f0f4ff', scale: 1.1 }) },
-      ], formAdd: [null, { slow: 2 }, { slow: 2.5 }] }),
+      ], formAdd: [null, { slow: 2, kibbleOnDeploy: 3 }, { slow: 2.5, kibbleOnDeploy: 4 }] }),
     cat({ id: 'facetimepro', name: 'Facetime Cat Pro', rarity: 'uber', exclusive: true, cost: 6, hp: 540, dmg: 135, range: 26, speed: 120, rate: 0.6, lifesteal: 0.3,
       desc: 'Pro gamer reflexes. Sprints in, mashes buttons at lightning speed, and heals off every combo. Gift-only!',
       forms: [
@@ -506,13 +520,6 @@ const DATA = (() => {
         { name: 'Facetime Cat Ultra HD', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#dce8ff', hat: '🎧' }) },
         { name: 'Facetime Cat Ultra 4K', look: look({ tablet: 'ultra', ufo: true, eyes: 'glow', color: '#d0e0ff', hat: '🌟', scale: 1.15 }) },
       ], formAdd: [null, { freeze: 2 }, { freeze: 2.5 }] }),
-    cat({ id: 'facetime', name: 'Facetime Cat', rarity: 'uber', cost: 7, hp: 640, dmg: 150, range: 135, speed: 55, rate: 1.4, hitsAir: true, area: 46, stun: 0.8, kibbleOnDeploy: 2, exclusive: true,
-      desc: 'Streams every battle on his iPad while gaming. Enemies he hits LAG for a moment, and his fans tip you 2 Kibble when he shows up. Only the Game Master can give you this cat!',
-      forms: [
-        { name: 'Facetime Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide' }) },
-        { name: 'Streamer Cat', look: look({ item: '📱', item2: '🎮', eyes: 'wide', hat: '🎧', color: '#f0f4ff' }) },
-        { name: 'Esports Legend', look: look({ item: '📱', item2: '🎮', eyes: 'glow', hat: '🏆', color: '#e8f0ff', scale: 1.15 }) },
-      ], formAdd: [null, { stun: 1.0, kibbleOnDeploy: 3 }, { stun: 1.2, kibbleOnDeploy: 4 }] }),
     // ---------------- SPELLS ----------------
     { id: 'fishbomb', name: 'Fish Bomb', rarity: 'spell', cost: 3, kind: 'spell', radius: 72, dmg: 230, knockback: true, hitsAir: true,
       desc: 'Drop an exploding can of tuna anywhere. Big splash damage plus knockback.',
@@ -674,7 +681,26 @@ const ART = (() => {
    * Draw a creature. (x,y) = body center. s = base radius (about 16 for a normal unit).
    * o = { bob, squash, flash, alpha, hpFrac, stunned, frozen, raged, dying }
    */
+  // Status tints (hit flash, frozen, gummed, raged) are painted with source-atop, which only works on a
+  // transparent surface, so a tinted creature is drawn on this scratch canvas and then copied over.
+  const tintCanvas = typeof document !== 'undefined' ? document.createElement('canvas') : null;
+  function tintFor(o) { return o.flash ? 'rgba(255,80,80,0.55)' : o.frozen ? 'rgba(120,200,255,0.5)' : o.gummed ? 'rgba(255,110,180,0.45)' : o.raged ? 'rgba(160,255,120,0.3)' : null; }
   function drawCreature(ctx, look, x, y, s, o = {}) {
+    const tint = tintFor(o);
+    if (tint && !o._off && tintCanvas) {
+      const sc = s * (look.scale || 1);
+      const { rx: rx0, ry: ry0 } = bodyDims(look, sc);
+      const size = Math.ceil(sc * 9) + 40;
+      tintCanvas.width = size; tintCanvas.height = size;
+      const tc = tintCanvas.getContext('2d');
+      // shadow stays on the real canvas so it isn't tinted
+      ctx.save(); ctx.globalAlpha = o.alpha == null ? 1 : o.alpha; ctx.fillStyle = 'rgba(0,0,0,0.18)';
+      ctx.beginPath(); ctx.ellipse(x, y + ry0 + 3, rx0 * 0.9, ry0 * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+      drawCreature(tc, look, size / 2, size / 2, s, Object.assign({}, o, { _off: true, alpha: 1, noShadow: true }));
+      ctx.drawImage(tintCanvas, x - size / 2, y - size / 2);
+      ctx.restore();
+      return;
+    }
     s *= (look.scale || 1);
     const { rx, ry } = bodyDims(look, s);
     const color = look.color || '#fff';
@@ -686,8 +712,10 @@ const ART = (() => {
     if (o.facing === -1) ctx.scale(-1, 1);
 
     // shadow
-    ctx.fillStyle = 'rgba(0,0,0,0.18)';
-    ctx.beginPath(); ctx.ellipse(0, ry + 3 - bob, rx * 0.9, ry * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+    if (!o.noShadow) {
+      ctx.fillStyle = 'rgba(0,0,0,0.18)';
+      ctx.beginPath(); ctx.ellipse(0, ry + 3 - bob, rx * 0.9, ry * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+    }
 
     // behind-body props
     if (look.cape) {
@@ -781,6 +809,12 @@ const ART = (() => {
     if (look.hair === 'mohawk') { ctx.fillStyle = '#ff5252'; ctx.strokeStyle = OUTLINE; ctx.lineWidth = 2; ctx.beginPath(); for (let i = -2; i <= 2; i++) { ctx.moveTo(i * rx * 0.2 - rx * 0.12, -ry * 0.85); ctx.lineTo(i * rx * 0.2, -ry * 1.7); ctx.lineTo(i * rx * 0.2 + rx * 0.12, -ry * 0.85); } ctx.closePath(); ctx.fill(); ctx.stroke(); }
     if (look.hair === 'long') { ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.moveTo(-rx * 0.9, -ry * 0.6); ctx.quadraticCurveTo(-rx * 1.3, ry * 0.4, -rx * 0.9, ry * 0.9); ctx.lineTo(-rx * 0.6, ry * 0.2); ctx.closePath(); ctx.fill(); ctx.strokeStyle = OUTLINE; ctx.lineWidth = 1.5; ctx.stroke(); }
 
+    // swim cap (Goggles Cat): a dome over the top of the head, drawn before the face
+    if (look.swimcap) {
+      ctx.save(); ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2); ctx.clip();
+      ellipse(ctx, 0, -ry * 0.35, rx * 1.02, ry * 0.62, look.swimcap, OUTLINE, 2);
+      ctx.restore();
+    }
     // face
     const ey = -ry * 0.15, ex = rx * 0.38;
     if (look.mask) { ctx.fillStyle = '#2a2a33'; ctx.fillRect(-rx * 0.85, ey - ry * 0.28, rx * 1.7, ry * 0.5); }
@@ -829,6 +863,18 @@ const ART = (() => {
         for (const d of [-1, 1]) { ctx.beginPath(); ctx.moveTo(d * rx * 0.5, ey + 6); ctx.lineTo(d * rx * 1.25, ey + 3); ctx.moveTo(d * rx * 0.5, ey + 9); ctx.lineTo(d * rx * 1.25, ey + 11); ctx.stroke(); }
       }
     }
+    // swim goggles (Goggles Cat): blue lenses over the eyes with a strap
+    if (look.goggles) {
+      ctx.strokeStyle = '#1b2340'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(-rx * 0.95, ey - 1); ctx.lineTo(rx * 0.95, ey - 1); ctx.stroke();
+      for (const d of [-1, 1]) { ellipse(ctx, d * ex, ey, 6.5, 5.5, 'rgba(90,200,255,0.85)', '#1b2340', 2); ellipse(ctx, d * ex - 2, ey - 2, 2, 1.3, 'rgba(255,255,255,0.85)'); ellipse(ctx, d * ex + 1, ey + 0.5, 1.8, 1.8, OUTLINE); }
+      ctx.strokeStyle = '#1b2340'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-ex + 6.5, ey); ctx.lineTo(ex - 6.5, ey); ctx.stroke();
+    }
+    // bubble gum bubble (Hubba Bubba Cat)
+    if (look.bubble) {
+      const br = s * 0.55 * look.bubble, bx = rx * 0.55, by = ey + 12 + br * 0.6;
+      ellipse(ctx, bx, by, br, br, 'rgba(255,120,180,0.85)', '#c2447a', 1.5);
+      ellipse(ctx, bx - br * 0.35, by - br * 0.35, br * 0.22, br * 0.16, 'rgba(255,255,255,0.8)');
+    }
     // iPad with a game controller (Facetime Cat family)
     if (look.tablet) {
       const big = look.tablet === 'max';
@@ -852,11 +898,10 @@ const ART = (() => {
     if (look.emoji) emoji(ctx, look.emoji, 0, 0, s * 2.4);
     if (look.speedlines) { ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 2; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(-rx * 1.2, i * 6); ctx.lineTo(-rx * 1.9, i * 6); ctx.stroke(); } }
 
-    // status overlays
-    if (o.flash) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(255,80,80,0.55)'; ctx.fillRect(-rx * 2.2, -ry * 2.2, rx * 4.4, ry * 4.4); ctx.globalCompositeOperation = 'source-over'; }
-    if (o.frozen) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(120,200,255,0.5)'; ctx.fillRect(-rx * 2.2, -ry * 2.2, rx * 4.4, ry * 4.4); ctx.globalCompositeOperation = 'source-over'; }
-    if (o.raged) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(160,255,120,0.3)'; ctx.fillRect(-rx * 2.2, -ry * 2.2, rx * 4.4, ry * 4.4); ctx.globalCompositeOperation = 'source-over'; }
-    if (o.stunned) emoji(ctx, '💫', 0, -ry * 1.6 - (look.hat ? 10 : 0), 13);
+    // status overlays (only ever reached on the transparent scratch canvas)
+    if (o._off && tint) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = tint; ctx.fillRect(-rx * 5, -ry * 5, rx * 10, ry * 10); ctx.globalCompositeOperation = 'source-over'; }
+    if (o.gummed) emoji(ctx, '🍬', 0, -ry * 1.6 - (look.hat ? 10 : 0), 13);
+    else if (o.stunned) emoji(ctx, '💫', 0, -ry * 1.6 - (look.hat ? 10 : 0), 13);
     ctx.restore();
   }
 
@@ -1160,10 +1205,11 @@ const SAVE = (() => {
   // Catnip codes work once per day. Cat codes are one-time gifts of an exclusive cat.
   const PROMO_CODES = {
     lawsonisthebest: { nip: 50 },
-    facetimecat: { cat: 'facetime' },
-    facetimepro: { cat: 'facetimepro' },
-    facetimemax: { cat: 'facetimemax' },
-    facetimeultra: { cat: 'facetimeultra' },
+    ethanwalker: { cat: 'facetime' },      // typed as "Ethan Walker"
+    leviemmons: { cat: 'facetimepro' },    // "Levi Emmons"
+    lawsonray: { cat: 'facetimemax' },     // "Lawson Ray"
+    henrypope: { cat: 'facetimeultra' },
+    jabash22: { cat: 'hubba' },            // "Jabash22"   // "Henry Pope"
   };
   function redeemPromo(raw) {
     const code = String(raw || '').trim().toLowerCase().replace(/\s+/g, '');
@@ -1280,7 +1326,7 @@ const ENGINE = (() => {
           hp: st.hp, maxHp: st.hp, dmg: st.dmg, range: st.range, speed: st.speed, rate: st.rate, cd: 0.4,
           flying: !!st.flying, hitsAir: !!st.hitsAir, targetMode: st.target || 'any', area: st.area || 0, knockback: !!st.knockback,
           strongVs: st.strongVs || [], traits: st.traits || [], revive: st.revive || 0, lifesteal: st.lifesteal || 0, armor: st.armor || 0,
-          slow: st.slow || 0, freeze: st.freeze || 0, stun: st.stun || 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
+          slow: st.slow || 0, freeze: st.freeze || 0, stun: st.stun || 0, stick: st.stick || 0, gummedUntil: 0, critEvery: st.critEvery || 0, critMult: st.critMult || 1.5, shots: 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
           building: st.kind === 'building', spawns: st.spawns, spawnEvery: st.spawnEvery || 4, spawnT: st.spawnEvery ? 1.5 : 0, life: st.lifetime || 0,
           stunUntil: 0, slowUntil: 0, frozenUntil: 0, rageUntil: 0, flashUntil: 0, kbv: 0, bobT: Math.random() * 6, squash: 0,
           dead: false, dying: 0, boss: !!st.boss, healT: 0, dir: this.dir(owner), target: null,
@@ -1314,7 +1360,14 @@ const ENGINE = (() => {
     }
     // ---------- damage ----------
     damage(att, tgt, amount, opts = {}) {
-      if (tgt.dead || amount <= 0) return 0;
+      if (tgt.dead) return 0;
+      // gum: sticks the target in place even though it deals no damage (bosses for half as long)
+      if (att && att.stick && !tgt.building) {
+        const dur = tgt.boss ? att.stick * 0.5 : att.stick;
+        tgt.stunUntil = Math.max(tgt.stunUntil, this.t + dur); tgt.gummedUntil = Math.max(tgt.gummedUntil || 0, this.t + dur);
+        this.effects.push({ type: 'text', x: tgt.x, y: tgt.y - 22, txt: 'STUCK!', t: 0, dur: 0.8, color: '#ff8ac4' });
+      }
+      if (amount <= 0) return 0;
       let d = amount;
       if (att) {
         const aSV = att.strongVs || [], aTr = att.traits || [];
@@ -1469,8 +1522,11 @@ const ENGINE = (() => {
         return;
       }
       if (u.range > 40) {
-        const style = u.look.item === '🏹' ? 'arrow' : u.look.item === '❄️' || u.look.item === '🧊' ? 'snow' : (u.look.item === '🔥' || u.look.item === '🌋' || u.look.hat === '🧙') ? 'fire' : u.flying ? 'zap' : 'ball';
-        this.projectiles.push({ x: u.x, y: u.y - 8, target: tgt, speed: 280, dmg: u.dmg, owner: u.owner, att: u, style, area: u.area, tx: tgt.x, ty: tgt.y });
+        const style = u.stick ? 'gum' : u.critEvery ? 'water' : u.look.item === '🏹' ? 'arrow' : u.look.item === '❄️' || u.look.item === '🧊' ? 'snow' : (u.look.item === '🔥' || u.look.item === '🌋' || u.look.hat === '🧙') ? 'fire' : u.flying ? 'zap' : 'ball';
+        // every Nth shot is a critical hit
+        let dmg = u.dmg, crit = false;
+        if (u.critEvery) { u.shots++; if (u.shots % u.critEvery === 0) { crit = true; dmg = Math.round(u.dmg * u.critMult); this.effects.push({ type: 'text', x: u.x, y: u.y - 30, txt: 'CRITICAL HIT!', t: 0, dur: 1.0, color: '#ffe14a' }); this.onEvent('crit', { owner: u.owner }); } }
+        this.projectiles.push({ x: u.x, y: u.y - 8, target: tgt, speed: 280, dmg, owner: u.owner, att: u, style, area: u.area, tx: tgt.x, ty: tgt.y, crit });
       } else {
         if (u.area) this.splash(u, tgt.x, tgt.y, u.dmg, u.area, tgt);
         else this.damage(u, tgt, u.dmg, { knockback: u.knockback });
@@ -1485,7 +1541,7 @@ const ENGINE = (() => {
         if (v.flying && att && !att.hitsAir) continue;
         if (Math.hypot(v.x - x, v.y - y) <= r) this.damage(att, v, dmg, { knockback: att && att.knockback });
       }
-      this.effects.push({ type: 'burst', x, y, r: r * 0.9, t: 0, dur: 0.3, color: 'rgba(255,200,80,0.6)' });
+      this.effects.push({ type: 'burst', x, y, r: r * 0.9, t: 0, dur: att && att.stick ? 0.5 : 0.3, color: att && att.stick ? 'rgba(255,120,180,0.6)' : 'rgba(255,200,80,0.6)' });
     }
     tickVisuals(dt) {
       // projectiles
@@ -1561,7 +1617,7 @@ const ENGINE = (() => {
       const bob = walking ? Math.sin(u.bobT * 12) * 2.5 : 0;
       const lift = u.flying ? -18 + Math.sin(u.bobT * 3) * 3 : 0;
       if (u.flying) { ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.ellipse(u.x, u.y + 12, 12, 4, 0, 0, Math.PI * 2); ctx.fill(); }
-      ART.drawCreature(ctx, u.look, u.x, u.y + lift, UNIT_R, { bob, squash: u.squash, flash: u.flashUntil > this.t, alpha, frozen: u.frozenUntil > this.t, stunned: u.stunUntil > this.t && !u.dead, raged: u.rageUntil > this.t, t: u.bobT, facing: u.owner === 0 ? 1 : -1 });
+      ART.drawCreature(ctx, u.look, u.x, u.y + lift, UNIT_R, { bob, squash: u.squash, flash: u.flashUntil > this.t, alpha, frozen: u.frozenUntil > this.t, gummed: u.gummedUntil > this.t && !u.dead, stunned: u.stunUntil > this.t && !u.dead, raged: u.rageUntil > this.t, t: u.bobT, facing: u.owner === 0 ? 1 : -1 });
       if (!u.dead) {
         const sc = (u.look.scale || 1);
         const w = 26 * Math.min(1.6, sc), y = u.y + lift - UNIT_R * sc - 12 - (u.look.hat ? 8 : 0) - (u.look.ears === 'cat' ? 4 : 0);
@@ -1578,6 +1634,8 @@ const ENGINE = (() => {
         case 'fire': ART.ellipse(ctx, p.x, p.y, 6, 6, '#ff7a1a'); ART.ellipse(ctx, p.x, p.y, 3, 3, '#ffe14a'); break;
         case 'zap': ART.ellipse(ctx, p.x, p.y, 4, 4, '#a0e7ff', '#5ec8ff', 1.5); break;
         case 'yarn': ART.ellipse(ctx, p.x, p.y, 4.5, 4.5, '#ff6b8a', '#222', 1); break;
+        case 'water': { const r = p.crit ? 7 : 4.5; ART.ellipse(ctx, p.x, p.y, r, r, p.crit ? '#8fe0ff' : '#5ec8ff', '#1b6fa8', 1.5); if (p.crit) ART.ellipse(ctx, p.x - 2, p.y - 2, 2, 1.5, 'rgba(255,255,255,0.9)'); break; }
+        case 'gum': ART.ellipse(ctx, p.x, p.y, 7, 7, 'rgba(255,120,180,0.9)', '#c2447a', 1.5); ART.ellipse(ctx, p.x - 2, p.y - 2, 2, 1.5, 'rgba(255,255,255,0.8)'); break;
         case 'bone': ART.emoji(ctx, '🦴', p.x, p.y, 11); break;
         default: ART.ellipse(ctx, p.x, p.y, 4, 4, '#fff', '#222', 1.5);
       }
@@ -1722,7 +1780,7 @@ const UI = (() => {
     ART.drawPortraitTo(cv, def, c ? c.form : 0);
     d.appendChild(el('div', 'c', def.cost));
     if (c) d.appendChild(el('div', 'lv', 'Lv' + c.level));
-    else if (def.exclusive) d.appendChild(el('div', 'lv', '🔒 Secret')); else if (def.exclusive) d.appendChild(el('div', 'lv', '🎁'));
+    else if (def.exclusive) d.appendChild(el('div', 'lv', '🎁 Gift'));
     d.appendChild(el('div', 'n', c ? def.forms[c.form].name : def.name));
     if (opts.onclick) d.onclick = () => { SFX.click(); opts.onclick(id, d); };
     return d;
@@ -1832,7 +1890,7 @@ const UI = (() => {
     if (st.target === 'buildings') tags.push('🏠 Targets towers'); if (st.knockback) tags.push('👊 Knockback'); if (st.count > 1) tags.push('👥 x' + st.count);
     if (st.strongVs) st.strongVs.forEach(t => tags.push('💪 Strong vs ' + DATA.TRAIT_INFO[t].icon + ' ' + DATA.TRAIT_INFO[t].name));
     if (st.revive) tags.push('🧟 Revives x' + st.revive); if (st.lifesteal) tags.push('🩸 Lifesteal'); if (st.armor) tags.push('🛡️ Armor ' + Math.round(st.armor * 100) + '%');
-    if (st.slow) tags.push('🐌 Slows ' + st.slow + 's'); if (st.freeze) tags.push('🧊 Freezes ' + st.freeze + 's'); if (st.pierce) tags.push('⚡ Pierces lane'); if (st.suicide) tags.push('💣 Explodes'); if (st.heal) tags.push('💚 Heals ' + st.heal + '/s');
+    if (st.stick) tags.push('🍬 Sticks enemies ' + st.stick + 's'); if (st.critEvery) tags.push('💦 Crit every ' + st.critEvery + ' shots (' + Math.round(st.dmg * st.critMult) + ' dmg)'); if (st.slow) tags.push('🐌 Slows ' + st.slow + 's'); if (st.freeze) tags.push('🧊 Freezes ' + st.freeze + 's'); if (st.pierce) tags.push('⚡ Pierces lane'); if (st.suicide) tags.push('💣 Explodes'); if (st.heal) tags.push('💚 Heals ' + st.heal + '/s');
     if (st.spawns) tags.push('📦 Spawns Kitty every ' + st.spawnEvery + 's'); if (st.traits && st.traits.length) st.traits.forEach(t => tags.push(DATA.TRAIT_INFO[t].icon + ' ' + DATA.TRAIT_INFO[t].name));
     return tags;
   }
@@ -1927,7 +1985,7 @@ const UI = (() => {
       const r = SAVE.redeemPromo(input.value);
       if (r.ok && r.cat) {
         SFX.fanfare(); input.value = ''; const def = DATA.CAT_BY_ID[r.cat];
-        const box = modal(`<div class="center"><div class="sub">🎁 A GIFT FROM THE GAME MASTER! 🎁</div><div class="reveal"><canvas width="140" height="140" id="gift-cv" style="background:#1b2340;border-radius:20px"></canvas></div><div class="mtitle">${def.name}</div><div class="rtext-uber" style="font-weight:800">Exclusive Uber Rare</div><div class="desc">${def.desc}</div><div class="row"><button class="btn green" id="gift-deck">🃏 Use in Deck</button><button class="btn gray" id="gift-ok">Awesome!</button></div></div>`);
+        const box = modal(`<div class="center"><div class="sub">🎁 A GIFT FROM THE GAME MASTER! 🎁</div><div class="reveal"><canvas width="140" height="140" id="gift-cv" style="background:#1b2340;border-radius:20px"></canvas></div><div class="mtitle">${def.name}</div><div class="rtext-${def.rarity}" style="font-weight:800">Exclusive ${RN(def.rarity)}</div><div class="desc">${def.desc}</div><div class="row"><button class="btn green" id="gift-deck">🃏 Use in Deck</button><button class="btn gray" id="gift-ok">Awesome!</button></div></div>`);
         ART.drawPortraitTo(box.querySelector('#gift-cv'), def, 0);
         box.querySelector('#gift-ok').onclick = () => { closeModal(); renderHome(); };
         box.querySelector('#gift-deck').onclick = () => { state.swapCat = r.cat; closeModal(); toast('Now tap a deck slot to replace'); setTab('cats'); };
@@ -2055,6 +2113,7 @@ const GAME = (() => {
       case 'spell': SFX.spell(); if (d.owner === 0) SAVE.questEvent('spell'); break;
       case 'hit': if (Math.random() < 0.3) SFX.hit(); break;
       case 'boom': SFX.boom(); break;
+      case 'crit': if (d.owner === 0) SFX.coin(); break;
       case 'cannon': SFX.cannon(); if (d.owner === 0) SAVE.questEvent('cannon'); banner(d.owner === 0 ? '🔫 CAT CANNON!' : '🔫 ENEMY CANNON!', 1000); break;
       case 'towerDown': SFX.towerDown(); if (d.winner === 0) SAVE.questEvent('tower'); if (!battle.over) banner(d.winner === 0 ? '🐾 TOWER DOWN!' : '😿 We lost a tower!', 1300); break;
       case 'double': banner('🐟 DOUBLE KIBBLE!', 1500); SFX.alarm(); break;

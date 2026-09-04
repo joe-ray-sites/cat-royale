@@ -92,7 +92,7 @@ const ENGINE = (() => {
           hp: st.hp, maxHp: st.hp, dmg: st.dmg, range: st.range, speed: st.speed, rate: st.rate, cd: 0.4,
           flying: !!st.flying, hitsAir: !!st.hitsAir, targetMode: st.target || 'any', area: st.area || 0, knockback: !!st.knockback,
           strongVs: st.strongVs || [], traits: st.traits || [], revive: st.revive || 0, lifesteal: st.lifesteal || 0, armor: st.armor || 0,
-          slow: st.slow || 0, freeze: st.freeze || 0, stun: st.stun || 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
+          slow: st.slow || 0, freeze: st.freeze || 0, stun: st.stun || 0, stick: st.stick || 0, gummedUntil: 0, critEvery: st.critEvery || 0, critMult: st.critMult || 1.5, shots: 0, pierce: !!st.pierce, suicide: !!st.suicide, heal: st.heal || 0,
           building: st.kind === 'building', spawns: st.spawns, spawnEvery: st.spawnEvery || 4, spawnT: st.spawnEvery ? 1.5 : 0, life: st.lifetime || 0,
           stunUntil: 0, slowUntil: 0, frozenUntil: 0, rageUntil: 0, flashUntil: 0, kbv: 0, bobT: Math.random() * 6, squash: 0,
           dead: false, dying: 0, boss: !!st.boss, healT: 0, dir: this.dir(owner), target: null,
@@ -126,7 +126,14 @@ const ENGINE = (() => {
     }
     // ---------- damage ----------
     damage(att, tgt, amount, opts = {}) {
-      if (tgt.dead || amount <= 0) return 0;
+      if (tgt.dead) return 0;
+      // gum: sticks the target in place even though it deals no damage (bosses for half as long)
+      if (att && att.stick && !tgt.building) {
+        const dur = tgt.boss ? att.stick * 0.5 : att.stick;
+        tgt.stunUntil = Math.max(tgt.stunUntil, this.t + dur); tgt.gummedUntil = Math.max(tgt.gummedUntil || 0, this.t + dur);
+        this.effects.push({ type: 'text', x: tgt.x, y: tgt.y - 22, txt: 'STUCK!', t: 0, dur: 0.8, color: '#ff8ac4' });
+      }
+      if (amount <= 0) return 0;
       let d = amount;
       if (att) {
         const aSV = att.strongVs || [], aTr = att.traits || [];
@@ -281,8 +288,11 @@ const ENGINE = (() => {
         return;
       }
       if (u.range > 40) {
-        const style = u.look.item === '🏹' ? 'arrow' : u.look.item === '❄️' || u.look.item === '🧊' ? 'snow' : (u.look.item === '🔥' || u.look.item === '🌋' || u.look.hat === '🧙') ? 'fire' : u.flying ? 'zap' : 'ball';
-        this.projectiles.push({ x: u.x, y: u.y - 8, target: tgt, speed: 280, dmg: u.dmg, owner: u.owner, att: u, style, area: u.area, tx: tgt.x, ty: tgt.y });
+        const style = u.stick ? 'gum' : u.critEvery ? 'water' : u.look.item === '🏹' ? 'arrow' : u.look.item === '❄️' || u.look.item === '🧊' ? 'snow' : (u.look.item === '🔥' || u.look.item === '🌋' || u.look.hat === '🧙') ? 'fire' : u.flying ? 'zap' : 'ball';
+        // every Nth shot is a critical hit
+        let dmg = u.dmg, crit = false;
+        if (u.critEvery) { u.shots++; if (u.shots % u.critEvery === 0) { crit = true; dmg = Math.round(u.dmg * u.critMult); this.effects.push({ type: 'text', x: u.x, y: u.y - 30, txt: 'CRITICAL HIT!', t: 0, dur: 1.0, color: '#ffe14a' }); this.onEvent('crit', { owner: u.owner }); } }
+        this.projectiles.push({ x: u.x, y: u.y - 8, target: tgt, speed: 280, dmg, owner: u.owner, att: u, style, area: u.area, tx: tgt.x, ty: tgt.y, crit });
       } else {
         if (u.area) this.splash(u, tgt.x, tgt.y, u.dmg, u.area, tgt);
         else this.damage(u, tgt, u.dmg, { knockback: u.knockback });
@@ -297,7 +307,7 @@ const ENGINE = (() => {
         if (v.flying && att && !att.hitsAir) continue;
         if (Math.hypot(v.x - x, v.y - y) <= r) this.damage(att, v, dmg, { knockback: att && att.knockback });
       }
-      this.effects.push({ type: 'burst', x, y, r: r * 0.9, t: 0, dur: 0.3, color: 'rgba(255,200,80,0.6)' });
+      this.effects.push({ type: 'burst', x, y, r: r * 0.9, t: 0, dur: att && att.stick ? 0.5 : 0.3, color: att && att.stick ? 'rgba(255,120,180,0.6)' : 'rgba(255,200,80,0.6)' });
     }
     tickVisuals(dt) {
       // projectiles
@@ -373,7 +383,7 @@ const ENGINE = (() => {
       const bob = walking ? Math.sin(u.bobT * 12) * 2.5 : 0;
       const lift = u.flying ? -18 + Math.sin(u.bobT * 3) * 3 : 0;
       if (u.flying) { ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.ellipse(u.x, u.y + 12, 12, 4, 0, 0, Math.PI * 2); ctx.fill(); }
-      ART.drawCreature(ctx, u.look, u.x, u.y + lift, UNIT_R, { bob, squash: u.squash, flash: u.flashUntil > this.t, alpha, frozen: u.frozenUntil > this.t, stunned: u.stunUntil > this.t && !u.dead, raged: u.rageUntil > this.t, t: u.bobT, facing: u.owner === 0 ? 1 : -1 });
+      ART.drawCreature(ctx, u.look, u.x, u.y + lift, UNIT_R, { bob, squash: u.squash, flash: u.flashUntil > this.t, alpha, frozen: u.frozenUntil > this.t, gummed: u.gummedUntil > this.t && !u.dead, stunned: u.stunUntil > this.t && !u.dead, raged: u.rageUntil > this.t, t: u.bobT, facing: u.owner === 0 ? 1 : -1 });
       if (!u.dead) {
         const sc = (u.look.scale || 1);
         const w = 26 * Math.min(1.6, sc), y = u.y + lift - UNIT_R * sc - 12 - (u.look.hat ? 8 : 0) - (u.look.ears === 'cat' ? 4 : 0);
@@ -390,6 +400,8 @@ const ENGINE = (() => {
         case 'fire': ART.ellipse(ctx, p.x, p.y, 6, 6, '#ff7a1a'); ART.ellipse(ctx, p.x, p.y, 3, 3, '#ffe14a'); break;
         case 'zap': ART.ellipse(ctx, p.x, p.y, 4, 4, '#a0e7ff', '#5ec8ff', 1.5); break;
         case 'yarn': ART.ellipse(ctx, p.x, p.y, 4.5, 4.5, '#ff6b8a', '#222', 1); break;
+        case 'water': { const r = p.crit ? 7 : 4.5; ART.ellipse(ctx, p.x, p.y, r, r, p.crit ? '#8fe0ff' : '#5ec8ff', '#1b6fa8', 1.5); if (p.crit) ART.ellipse(ctx, p.x - 2, p.y - 2, 2, 1.5, 'rgba(255,255,255,0.9)'); break; }
+        case 'gum': ART.ellipse(ctx, p.x, p.y, 7, 7, 'rgba(255,120,180,0.9)', '#c2447a', 1.5); ART.ellipse(ctx, p.x - 2, p.y - 2, 2, 1.5, 'rgba(255,255,255,0.8)'); break;
         case 'bone': ART.emoji(ctx, '🦴', p.x, p.y, 11); break;
         default: ART.ellipse(ctx, p.x, p.y, 4, 4, '#fff', '#222', 1.5);
       }
