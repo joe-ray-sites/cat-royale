@@ -5,6 +5,13 @@ const root = __dirname;
 let html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 html = html.replace(/<link rel="stylesheet" href="([^"]+)">/g, (m, href) =>
   '<style>\n' + fs.readFileSync(path.join(root, href), 'utf8') + '\n</style>');
+// Single-file build: inline the two icons a standalone file needs, drop links that need sibling files
+const dataUri = (f, mime) => 'data:' + mime + ';base64,' + fs.readFileSync(path.join(root, f)).toString('base64');
+html = html.replace('<link rel="icon" href="favicon.ico" sizes="any">\n', '')
+  .replace('<link rel="icon" type="image/png" sizes="192x192" href="icons/web/favicon-192.png">\n', '')
+  .replace('<link rel="manifest" href="manifest.webmanifest">\n', '')
+  .replace('href="favicon-32.png"', 'href="' + dataUri('favicon-32.png', 'image/png') + '"')
+  .replace('href="apple-touch-icon.png"', 'href="' + dataUri('apple-touch-icon.png', 'image/png') + '"');
 html = html.replace(/<script src="([^"]+)"><\/script>/g, (m, src) =>
   '<script>\n' + fs.readFileSync(path.join(root, src), 'utf8') + '\n</script>');
 fs.mkdirSync(path.join(root, 'dist'), { recursive: true });

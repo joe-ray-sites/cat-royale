@@ -33,6 +33,20 @@ Files:
 | `js/main.js` | Boot, battle loop, touch input, result screen and rewards. |
 | `js/sound.js` | Synthesized sound effects (WebAudio). |
 
+## Icons
+
+Source artwork is `cat royale icon.png`. Everything below is generated from it:
+
+| Path | Use |
+|---|---|
+| `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png` | Linked from `index.html` for the website and iPhone Home Screen |
+| `manifest.webmanifest` | PWA manifest (standalone, portrait) pointing at the 192/512 icons |
+| `icons/web/` | Full favicon set 16–512, maskable Android icons, 1024 rounded and square masters |
+| `icons/ios/AppIcon.appiconset/` | Drop into an Xcode project: every iPhone/iPad size plus the 1024 App Store icon, with `Contents.json` |
+| `icons/ios/AppStore-1024.png` | App Store Connect upload (1024×1024, opaque, square corners) |
+
+The web icons keep transparent rounded corners. The iOS icons are square and opaque as Apple requires; the corners are filled by extending the art's own colors, and iOS applies its rounded mask on device.
+
 ## Adding content
 
 - **New cat:** add an entry to `CATS` in `js/data.js` with 3 `forms` (name + look). It shows up in the collection and the capsule pool automatically.
