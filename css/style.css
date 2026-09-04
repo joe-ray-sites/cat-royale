@@ -22,7 +22,20 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;}
 
 /* HOME */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px;padding-top:calc(12px + env(safe-area-inset-top));}
-.logo{font-weight:900;font-size:20px;letter-spacing:.5px;text-shadow:0 2px 0 #0006;}
+.logo{font-weight:900;font-size:20px;letter-spacing:.5px;text-shadow:0 2px 0 #0006;display:flex;align-items:center;gap:8px;}
+.logo img{width:30px;height:30px;border-radius:8px;box-shadow:0 2px 6px #0008;}
+/* loader */
+#loader{position:absolute;inset:0;z-index:100;background:#0d1226;overflow:hidden;pointer-events:all;}
+#loader canvas{position:absolute;inset:0;width:100%;height:100%;}
+.loader-center{position:absolute;left:0;right:0;top:33%;display:flex;flex-direction:column;align-items:center;gap:22px;}
+#loader-logo{width:150px;height:150px;border-radius:32px;box-shadow:0 12px 40px #000a,0 0 60px #3fb8ff55,0 0 60px #ff604055;position:relative;z-index:2;}
+#loader-logo.pulsing{animation:logoPulse .5s ease-in-out infinite;}
+@keyframes logoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#loader-emojis{display:flex;gap:6px;font-size:34px;line-height:1;position:relative;z-index:2;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;}
+#loader-emojis span{display:inline-block;width:44px;text-align:center;filter:grayscale(.35) brightness(.85);transition:filter .2s;}
+#loader-emojis span.locked{filter:none;animation:lockPop .35s cubic-bezier(.2,1.8,.4,1);text-shadow:0 0 14px #ffe14a;}
+@keyframes lockPop{0%{transform:scale(.6)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){#loader-logo.pulsing,#loader-emojis span.locked{animation:none;}}
 .wallet{display:flex;gap:6px;}
 .pill{background:#0e1430;border:2px solid #3d4a7e;border-radius:20px;padding:4px 9px;font-weight:800;font-size:13px;}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 12px 14px;-webkit-overflow-scrolling:touch;touch-action:pan-y;}

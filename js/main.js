@@ -179,6 +179,7 @@ const GAME = (() => {
     const P = SAVE.load(); SFX.setEnabled(P.sound !== false);
     UI.scaleStage(); window.addEventListener('resize', UI.scaleStage); window.addEventListener('orientationchange', () => setTimeout(UI.scaleStage, 200));
     bindInput(); UI.showScreen('home'); UI.renderHome();
+    LOADER.start();
   }
   document.addEventListener('DOMContentLoaded', init);
   return { startBattle, leaveBattle, showResult, pauseBattle, resumeBattle, get battle() { return battle; } };

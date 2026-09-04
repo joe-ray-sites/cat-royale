@@ -22,7 +22,7 @@
     <!-- HOME -->
     <div id="home" class="screen">
       <div class="topbar">
-        <div class="logo">🐱 Cat Royale</div>
+        <div class="logo"><img src="icons/web/favicon-64.png" alt="" width="30" height="30"> Cat Royale</div>
         <div class="wallet">
           <span class="pill" id="w-food">🥫 0</span>
           <span class="pill" id="w-nip">🌿 0</span>
@@ -85,6 +85,13 @@
       </div>
       <div id="result" class="hidden"></div>
     </div>
+  <div id="loader">
+      <canvas width="360" height="720"></canvas>
+      <div class="loader-center">
+        <img id="loader-logo" class="pulsing" src="icons/web/favicon-256.png" alt="Cat Royale" width="150" height="150">
+        <div id="loader-emojis"><span>😺</span><span>😹</span><span>😻</span><span>😼</span><span>🙀</span><span>😿</span></div>
+      </div>
+    </div>
   </div>
   <div id="modal" class="hidden"><div id="modal-box"></div></div>
   <div id="toast" class="hidden"></div>
@@ -96,6 +103,7 @@
 <script src="js/engine.js"></script>
 <script src="js/ai.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/loader.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

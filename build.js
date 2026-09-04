@@ -12,6 +12,7 @@ html = html.replace('<link rel="icon" href="favicon.ico" sizes="any">\n', '')
   .replace('<link rel="manifest" href="manifest.webmanifest">\n', '')
   .replace('href="favicon-32.png"', 'href="' + dataUri('favicon-32.png', 'image/png') + '"')
   .replace('href="apple-touch-icon.png"', 'href="' + dataUri('apple-touch-icon.png', 'image/png') + '"');
+html = html.replace(/src="(icons\/web\/[^"]+\.png)"/g, (m, f) => 'src="' + dataUri(f, 'image/png') + '"');
 html = html.replace(/<script src="([^"]+)"><\/script>/g, (m, src) =>
   '<script>\n' + fs.readFileSync(path.join(root, src), 'utf8') + '\n</script>');
 fs.mkdirSync(path.join(root, 'dist'), { recursive: true });
